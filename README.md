@@ -38,6 +38,4 @@ with Card():
 ```bash
 pip install prefab-ui
 ```
-
 Requires Python 3.10+.
-## Documentation
