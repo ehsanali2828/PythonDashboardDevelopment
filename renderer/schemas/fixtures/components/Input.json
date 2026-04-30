@@ -1,0 +1,8 @@
+{
+  "disabled": false,
+  "inputType": "text",
+  "name": "input_1",
+  "readOnly": false,
+  "required": false,
+  "type": "Input"
+}

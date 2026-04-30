@@ -1,0 +1,126 @@
+/* Data visualization indicator styles — Dot, Ring, Sparkline.
+ * Split from style.css for file size limits. */
+
+/* MARK: Dot */
+.pf-dot-sm {
+  @apply size-1.5;
+}
+.pf-dot-default {
+  @apply size-2;
+}
+.pf-dot-lg {
+  @apply size-3;
+}
+.pf-dot-rounded {
+  @apply rounded-[3px];
+}
+.pf-dot-variant-default {
+  @apply bg-primary;
+}
+.pf-dot-variant-secondary {
+  @apply bg-secondary-foreground;
+}
+.pf-dot-variant-success {
+  @apply bg-[var(--success)];
+}
+.pf-dot-variant-warning {
+  @apply bg-[var(--warning)];
+}
+.pf-dot-variant-destructive {
+  @apply bg-destructive;
+}
+.pf-dot-variant-info {
+  @apply bg-[var(--info)];
+}
+.pf-dot-variant-muted {
+  @apply bg-muted-foreground;
+}
+
+/* MARK: Ring */
+.pf-ring {
+  @apply relative;
+}
+.pf-ring-svg {
+  @apply block;
+}
+.pf-ring-track {
+  stroke: var(--muted);
+  fill: none;
+}
+.pf-ring-fill {
+  fill: none;
+  transition:
+    stroke-dashoffset 0.3s ease,
+    filter 0.2s ease;
+}
+.pf-ring-variant-default {
+  stroke: var(--primary);
+  stroke: url(#ring-gradient-default);
+}
+.pf-ring-variant-success {
+  stroke: var(--success);
+  stroke: url(#ring-gradient-success);
+}
+.pf-ring-variant-warning {
+  stroke: var(--warning);
+  stroke: url(#ring-gradient-warning);
+}
+.pf-ring-variant-destructive {
+  stroke: var(--destructive);
+  stroke: url(#ring-gradient-destructive);
+}
+.pf-ring-variant-info {
+  stroke: var(--info);
+  stroke: url(#ring-gradient-info);
+}
+.pf-ring-variant-muted {
+  stroke: var(--muted-foreground);
+}
+.pf-ring-target {
+  stroke: var(--muted-foreground);
+}
+
+/* ── Sparkline ─────────────────────────────────────────────────────── */
+/* stroke="currentColor" on the Recharts <Line>/<Area> inherits color */
+.pf-sparkline-variant-default {
+  color: var(--primary);
+}
+.pf-sparkline-variant-success {
+  color: var(--success);
+}
+.pf-sparkline-variant-warning {
+  color: var(--warning);
+}
+.pf-sparkline-variant-destructive {
+  color: var(--destructive);
+}
+.pf-sparkline-variant-info {
+  color: var(--info);
+}
+.pf-sparkline-variant-muted {
+  color: var(--muted-foreground);
+}
+.pf-sparkline-fill-stop-start {
+  stop-color: currentColor;
+  stop-opacity: 0.3;
+}
+.pf-sparkline-fill-stop-end {
+  stop-color: currentColor;
+  stop-opacity: 0.05;
+}
+
+.pf-ring-label-overlay {
+  @apply pointer-events-none;
+}
+.pf-ring-label {
+  @apply font-semibold;
+}
+.pf-ring-label-sm {
+  @apply text-xs;
+}
+.pf-ring-label-default {
+  @apply text-base;
+}
+.pf-ring-label-lg {
+  @apply text-3xl;
+}

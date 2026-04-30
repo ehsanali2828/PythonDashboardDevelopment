@@ -1,0 +1,161 @@
+---
+title: State
+description: Prefab's centralized client-side data store and the reactive bindings that keep components in sync.
+icon: database
+---
+
+import { ComponentPreview } from '/snippets/component-preview.mdx'
+
+State is the renderer's memory. It's a flat key-value store that lives in the browser for the lifetime of your app, visible to every component, writable from every interaction. When state changes, every component that reads from it updates automatically.
+
+Because state is centralized and global, components don't own their data. There's no local component state, no `useState`, no callbacks threading data up through a tree. Components declare which keys they depend on, and changes propagate everywhere automatically. Any component anywhere in the tree can read or write any state key.
+
+## Providing initial values
+
+State starts empty unless you seed it. Pass initial state to `PrefabApp` via the `state` parameter:
+
+```python
+from prefab_ui.app import PrefabApp
+
+app = PrefabApp(view=view, state={"count": 0, "title": "Dashboard", "items": []})
+```
+
+You can also use `Rx` to create reactive references to state keys:
+
+```python
+from prefab_ui.rx import Rx
+
+count = Rx("count")         # reactive reference to {{ count }}
+items = Rx("items")         # reactive reference to {{ items }}
+```
+
+Components with a `value` prop seed their state key too. `Input(name="city", value="London")` registers `city` with an initial value of `"London"`.
+
+Either way, those keys are immediately available to every expression in your component tree.
+
+## Interactive components as state sources
+
+Interactive components with a `name` prop are the most natural state source. They automatically sync their current value to that key on every interaction.
+
+<ComponentPreview json={{"view":{"cssClass":"gap-3","type":"Column","children":[{"name":"name_input","type":"Input","inputType":"text","placeholder":"Type your name..","disabled":false,"readOnly":false,"required":false},{"content":"Hello, {{ name_input | 'stranger' }}!","type":"Text"}]}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgQ29sdW1uLCBJbnB1dCwgVGV4dAoKd2l0aCBDb2x1bW4oZ2FwPTMpOgogICAgbmFtZV9pbnB1dCA9IElucHV0KG5hbWU9Im5hbWVfaW5wdXQiLCBwbGFjZWhvbGRlcj0iVHlwZSB5b3VyIG5hbWUuLiIpCiAgICBUZXh0KCJIZWxsbywge3sgbmFtZV9pbnB1dCB8ICdzdHJhbmdlcicgfX0hIikK">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import Column, Input, Text
+
+with Column(gap=3):
+    name_input = Input(name="name_input", placeholder="Type your name..")
+    Text("Hello, {{ name_input | 'stranger' }}!")
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "cssClass": "gap-3",
+    "type": "Column",
+    "children": [
+      {
+        "name": "name_input",
+        "type": "Input",
+        "inputType": "text",
+        "placeholder": "Type your name..",
+        "disabled": false,
+        "readOnly": false,
+        "required": false
+      },
+      {"content": "Hello, {{ name_input | 'stranger' }}!", "type": "Text"}
+    ]
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+As you type in the input, the greeting updates on every keystroke. This is a gentle introduction to Prefab's expression language: double curly braces reference state values, and the pipe operator provides a fallback (`"stranger"`) when the key is undefined.
+
+Every interactive control works this way. A `Slider(name="volume")` writes its position on every drag. A `Checkbox(name="agree")` writes `true`/`false`. A `Select(name="size")` writes the selected option value. Whatever name you give becomes a key that expressions and actions can reference.
+
+## Reading state
+
+Inside component props, `{{ key }}` template expressions resolve to the current value at render time. **Any** string prop accepts these expressions, and the renderer re-evaluates them whenever a referenced key changes. `Text("{{ count }}")` displays the number; `Progress(value="{{ volume }}")` drives the bar.
+
+The expression language itself supports operators and formatting: `{{ count + 10 }}` adds ten, `{{ name | upper }}` uppercases. You can write these directly in any string prop.
+
+In Python, `Rx` objects compile to the same `{{ key }}` expressions in the protocol output, but in your code they behave like Python values — you can apply operators, use them in f-strings, and combine them with other values:
+
+```python
+from prefab_ui.rx import Rx
+
+count = Rx("count")
+
+Text(count)                            # {{ count }}
+Text(f"Count: {count}")                # Count: {{ count }}
+Text(count + 10)                       # {{ count + 10 }}
+Text(f"Items: {count} total")          # Items: {{ count }} total
+```
+
+The `STATE` constant works identically but doesn't require capturing the return value — useful when state is set by actions rather than initialization, or when you want a quick reference without creating an `Rx` first:
+
+```python
+from prefab_ui.components import STATE
+
+Text(STATE.count)                            # {{ count }}
+```
+
+The full Rx system, including operators, formatting, and the `.rx` shorthand, is covered in [Expressions](/concepts/expressions).
+
+## Nested state and dot paths
+
+State values can be nested objects, and you reach into them with dot notation. `{{ profile.name }}` reads the `name` field of the `profile` object. The `name` prop accepts dot paths too, so inputs can bind directly to nested fields:
+
+<ComponentPreview json={{"view":{"cssClass":"pf-app-root","type":"Div","children":[{"cssClass":"gap-3","type":"Column"}]},"state":{"profile":{"name":"Arthur Dent","title":"Sandwich Maker, Lamuella"}}}} playground="ZnJvbSBwcmVmYWJfdWkuYXBwIGltcG9ydCBQcmVmYWJBcHAKZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgKAogICAgQ2FyZCwgQ2FyZERlc2NyaXB0aW9uLCBDYXJkSGVhZGVyLCBDYXJkVGl0bGUsCiAgICBDb2x1bW4sIEZpZWxkLCBJbnB1dCwgTGFiZWwsCikKCndpdGggQ29sdW1uKGdhcD0zKToKICAgIHdpdGggQ2FyZCgpOgogICAgICAgIHdpdGggQ2FyZEhlYWRlcigpOgogICAgICAgICAgICBDYXJkVGl0bGUoInt7IHByb2ZpbGUubmFtZSB9fSIpCiAgICAgICAgICAgIENhcmREZXNjcmlwdGlvbigie3sgcHJvZmlsZS50aXRsZSB9fSIpCiAgICB3aXRoIEZpZWxkKCk6CiAgICAgICAgTGFiZWwoIk5hbWUiKQogICAgICAgIElucHV0KG5hbWU9InByb2ZpbGUubmFtZSIsIHBsYWNlaG9sZGVyPSJOYW1lIikKICAgIHdpdGggRmllbGQoKToKICAgICAgICBMYWJlbCgiVGl0bGUiKQogICAgICAgIElucHV0KG5hbWU9InByb2ZpbGUudGl0bGUiLCBwbGFjZWhvbGRlcj0iVGl0bGUiKQoKYXBwID0gUHJlZmFiQXBwKAogICAgc3RhdGU9ewogICAgICAgICJwcm9maWxlIjogewogICAgICAgICAgICAibmFtZSI6ICJBcnRodXIgRGVudCIsCiAgICAgICAgICAgICJ0aXRsZSI6ICJTYW5kd2ljaCBNYWtlciwgTGFtdWVsbGEiLAogICAgICAgIH0sCiAgICB9LAogICAgdmlldz1Db2x1bW4oZ2FwPTMpLAopCg">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.app import PrefabApp
+from prefab_ui.components import (
+    Card, CardDescription, CardHeader, CardTitle,
+    Column, Field, Input, Label,
+)
+
+with Column(gap=3):
+    with Card():
+        with CardHeader():
+            CardTitle("{{ profile.name }}")
+            CardDescription("{{ profile.title }}")
+    with Field():
+        Label("Name")
+        Input(name="profile.name", placeholder="Name")
+    with Field():
+        Label("Title")
+        Input(name="profile.title", placeholder="Title")
+
+app = PrefabApp(
+    state={
+        "profile": {
+            "name": "Arthur Dent",
+            "title": "Sandwich Maker, Lamuella",
+        },
+    },
+    view=Column(gap=3),
+)
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "cssClass": "pf-app-root",
+    "type": "Div",
+    "children": [{"cssClass": "gap-3", "type": "Column"}]
+  },
+  "state": {"profile": {"name": "Arthur Dent", "title": "Sandwich Maker, Lamuella"}}
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+Integer segments address array items. `{{ todos.0.done }}` reads the `done` field on the first item in `todos`. Inside a `ForEach` loop, combine this with `{{ $index }}` to target whichever row the user is interacting with: `SetState("todos.{{ $index }}.done", True)` checks off the current item.
+
+If any segment along a path is missing or the wrong type, the expression resolves to undefined rather than throwing. Reads return undefined gracefully; writes are no-ops with a console warning.
+
+## Writing to state
+
+Two things write to state: interactive controls (automatically, via the `name` prop) and [actions](/concepts/actions) (explicitly, in response to events). `SetState` assigns a value. `ToggleState` flips a boolean. `AppendState` and `PopState` manipulate arrays. `CallTool` and `Fetch` make their results available as `$result` in `on_success` callbacks, where you can write them to state with `SetState`.
+
+State is deliberately simple: a flat map with dot-path addressing for nesting. When you need derived values, inline expressions like `{{ price * quantity }}` handle them directly. For reuse across multiple components, assign the expression to a Python variable with `Rx` and reference it wherever needed.

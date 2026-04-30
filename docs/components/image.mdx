@@ -1,0 +1,94 @@
+---
+title: Image
+description: Display images with dynamic URLs and dimensions.
+icon: image
+---
+
+import { ComponentPreview } from '/snippets/component-preview.mdx'
+
+`Image` renders an `<img>` element with support for `{{ field }}` interpolation on both `src` and `alt`, making it easy to display user avatars, product images, or any dynamic media.
+
+## Basic Usage
+
+<ComponentPreview json={{"view":{"type":"Image","src":"https://picsum.photos/400/300","alt":"Example image","width":"400px"}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgSW1hZ2UKCkltYWdlKHNyYz0iaHR0cHM6Ly9waWNzdW0ucGhvdG9zLzQwMC8zMDAiLCBhbHQ9IkV4YW1wbGUgaW1hZ2UiLCB3aWR0aD0iNDAwcHgiKQo">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import Image
+
+Image(src="https://picsum.photos/400/300", alt="Example image", width="400px")
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "type": "Image",
+    "src": "https://picsum.photos/400/300",
+    "alt": "Example image",
+    "width": "400px"
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+Both `width` and `height` are CSS values (with units), applied as inline styles. The `src` and `alt` attributes support `{{ field }}` interpolation for dynamic content.
+
+## In Context
+
+Images compose naturally with cards and other layout components:
+
+```python Image in Card
+from prefab_ui.components import (
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+    Image,
+    P,
+)
+
+with Card():
+    with CardHeader():
+        CardTitle("{{ name }}")
+    with CardContent():
+        Image(src="{{ photo_url }}", alt="{{ name }}", width="100%")
+        P("{{ bio }}")
+```
+
+## API Reference
+
+<Card icon="code" title="Image Parameters">
+<ParamField body="src" type="str" required>
+  Image URL.
+</ParamField>
+
+<ParamField body="alt" type="str" default='""'>
+  Alt text for accessibility.
+</ParamField>
+
+<ParamField body="width" type="str | None" default="None">
+  CSS width value with units (e.g., `"200px"`, `"100%"`).
+</ParamField>
+
+<ParamField body="height" type="str | None" default="None">
+  CSS height value with units.
+</ParamField>
+
+<ParamField body="css_class" type="str | None" default="None">
+  Additional Tailwind CSS classes.
+</ParamField>
+</Card>
+
+## Protocol Reference
+
+```json Image
+{
+  "type": "Image",
+  "src": "string (required)",
+  "alt?": "string",
+  "width?": "string",
+  "height?": "string",
+  "cssClass?": "string"
+}
+```
+
+For the complete protocol schema, see [Image](/protocol/image).

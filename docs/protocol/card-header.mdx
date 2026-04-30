@@ -1,0 +1,57 @@
+---
+title: CardHeader
+description: JSON Schema for the CardHeader component.
+---
+
+Card header section for title and description.
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "type": {
+      "const": "CardHeader",
+      "default": "CardHeader",
+      "type": "string"
+    },
+    "id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "HTML id attribute for CSS targeting. Applied to the outermost element."
+    },
+    "cssClass": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "CSS/Tailwind classes for styling. Accepts a Responsive() for breakpoint-aware classes."
+    },
+    "onMount": {
+      "default": null,
+      "description": "Action(s) to execute when this component mounts."
+    },
+    "children": {
+      "type": "array",
+      "items": {
+        "$ref": "Component"
+      }
+    },
+    "let": {
+      "additionalProperties": true,
+      "type": [
+        "object",
+        "null"
+      ],
+      "default": null,
+      "description": "Scoped bindings available to children. Values are template strings."
+    }
+  },
+  "required": [
+    "type"
+  ]
+}
+```

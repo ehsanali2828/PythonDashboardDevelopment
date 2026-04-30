@@ -1,0 +1,57 @@
+---
+title: ComboboxOption
+description: JSON Schema for the ComboboxOption component.
+---
+
+A single option within a Combobox.
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "type": {
+      "const": "ComboboxOption",
+      "default": "ComboboxOption",
+      "type": "string"
+    },
+    "id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "HTML id attribute for CSS targeting. Applied to the outermost element."
+    },
+    "cssClass": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "CSS/Tailwind classes for styling. Accepts a Responsive() for breakpoint-aware classes."
+    },
+    "onMount": {
+      "default": null,
+      "description": "Action(s) to execute when this component mounts."
+    },
+    "value": {
+      "description": "Option value",
+      "type": "string"
+    },
+    "label": {
+      "description": "Display label",
+      "type": "string"
+    },
+    "disabled": {
+      "default": false,
+      "description": "Whether option is disabled",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "type",
+    "value",
+    "label"
+  ]
+}
+```

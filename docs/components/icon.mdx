@@ -1,0 +1,145 @@
+---
+title: Icon
+description: Render any lucide icon by name.
+icon: shapes
+---
+
+import { ComponentPreview } from '/snippets/component-preview.mdx'
+
+Icons render any [lucide icon](https://lucide.dev/icons) by name. Pass the icon name in kebab-case and it resolves at render time.
+
+## Basic Usage
+
+<ComponentPreview json={{"view":{"type":"Icon","name":"rocket","size":"default"}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgSWNvbgoKSWNvbigicm9ja2V0IikK">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import Icon
+
+Icon("rocket")
+```
+```json Protocol icon="brackets-curly"
+{"view": {"type": "Icon", "name": "rocket", "size": "default"}}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## Sizes
+
+Three size variants control the icon dimensions.
+
+<ComponentPreview json={{"view":{"cssClass":"gap-4 items-center","type":"Row","children":[{"type":"Icon","name":"heart","size":"sm"},{"type":"Icon","name":"heart","size":"default"},{"type":"Icon","name":"heart","size":"lg"}]}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgSWNvbiwgUm93Cgp3aXRoIFJvdyhnYXA9NCwgY3NzX2NsYXNzPSJpdGVtcy1jZW50ZXIiKToKICAgIEljb24oImhlYXJ0Iiwgc2l6ZT0ic20iKQogICAgSWNvbigiaGVhcnQiLCBzaXplPSJkZWZhdWx0IikKICAgIEljb24oImhlYXJ0Iiwgc2l6ZT0ibGciKQo">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import Icon, Row
+
+with Row(gap=4, css_class="items-center"):
+    Icon("heart", size="sm")
+    Icon("heart", size="default")
+    Icon("heart", size="lg")
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "cssClass": "gap-4 items-center",
+    "type": "Row",
+    "children": [
+      {"type": "Icon", "name": "heart", "size": "sm"},
+      {"type": "Icon", "name": "heart", "size": "default"},
+      {"type": "Icon", "name": "heart", "size": "lg"}
+    ]
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## In Context
+
+Icons work inline alongside text and other components.
+
+<ComponentPreview json={{"view":{"cssClass":"gap-3","type":"Column","children":[{"cssClass":"gap-2 items-center","type":"Row","children":[{"type":"Icon","name":"check","size":"sm"},{"content":"Task completed","type":"Text"}]},{"cssClass":"gap-2 items-center","type":"Row","children":[{"type":"Icon","name":"clock","size":"sm"},{"content":"Waiting for approval","type":"Text"}]},{"cssClass":"gap-2 items-center","type":"Row","children":[{"type":"Icon","name":"circle-x","size":"sm"},{"content":"Build failed","type":"Text"}]}]}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgKAogICAgQ29sdW1uLAogICAgSWNvbiwKICAgIFJvdywKICAgIFRleHQsCikKCndpdGggQ29sdW1uKGdhcD0zKToKICAgIHdpdGggUm93KGdhcD0yLCBjc3NfY2xhc3M9Iml0ZW1zLWNlbnRlciIpOgogICAgICAgIEljb24oImNoZWNrIiwgc2l6ZT0ic20iKQogICAgICAgIFRleHQoIlRhc2sgY29tcGxldGVkIikKICAgIHdpdGggUm93KGdhcD0yLCBjc3NfY2xhc3M9Iml0ZW1zLWNlbnRlciIpOgogICAgICAgIEljb24oImNsb2NrIiwgc2l6ZT0ic20iKQogICAgICAgIFRleHQoIldhaXRpbmcgZm9yIGFwcHJvdmFsIikKICAgIHdpdGggUm93KGdhcD0yLCBjc3NfY2xhc3M9Iml0ZW1zLWNlbnRlciIpOgogICAgICAgIEljb24oImNpcmNsZS14Iiwgc2l6ZT0ic20iKQogICAgICAgIFRleHQoIkJ1aWxkIGZhaWxlZCIpCg">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import (
+    Column,
+    Icon,
+    Row,
+    Text,
+)
+
+with Column(gap=3):
+    with Row(gap=2, css_class="items-center"):
+        Icon("check", size="sm")
+        Text("Task completed")
+    with Row(gap=2, css_class="items-center"):
+        Icon("clock", size="sm")
+        Text("Waiting for approval")
+    with Row(gap=2, css_class="items-center"):
+        Icon("circle-x", size="sm")
+        Text("Build failed")
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "cssClass": "gap-3",
+    "type": "Column",
+    "children": [
+      {
+        "cssClass": "gap-2 items-center",
+        "type": "Row",
+        "children": [
+          {"type": "Icon", "name": "check", "size": "sm"},
+          {"content": "Task completed", "type": "Text"}
+        ]
+      },
+      {
+        "cssClass": "gap-2 items-center",
+        "type": "Row",
+        "children": [
+          {"type": "Icon", "name": "clock", "size": "sm"},
+          {"content": "Waiting for approval", "type": "Text"}
+        ]
+      },
+      {
+        "cssClass": "gap-2 items-center",
+        "type": "Row",
+        "children": [
+          {"type": "Icon", "name": "circle-x", "size": "sm"},
+          {"content": "Build failed", "type": "Text"}
+        ]
+      }
+    ]
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## API Reference
+
+<Card icon="code" title="Icon Parameters">
+<ParamField body="name" type="str" required>
+  Lucide icon name in kebab-case (e.g., `"arrow-right"`, `"circle-alert"`). Can be passed as a positional argument. Browse icons at [lucide.dev/icons](https://lucide.dev/icons).
+</ParamField>
+
+<ParamField body="size" type="str" default="default">
+  Icon size: `"sm"`, `"default"`, `"lg"`.
+</ParamField>
+
+<ParamField body="css_class" type="str | None" default="None">
+  Additional Tailwind CSS classes.
+</ParamField>
+</Card>
+
+## Protocol Reference
+
+```json Icon
+{
+  "type": "Icon",
+  "name": "string (required)",
+  "size?": "sm | default | lg",
+  "cssClass?": "string"
+}
+```
+
+For the complete protocol schema, see [Icon](/protocol/icon).

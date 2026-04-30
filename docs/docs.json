@@ -1,0 +1,421 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "appearance": {
+    "default": "system",
+    "strict": false
+  },
+  "background": {
+    "decoration": "gradient"
+  },
+  "colors": {
+    "dark": "#f72585",
+    "light": "#4cc9f0",
+    "primary": "#2d00f7"
+  },
+  "contextual": {
+    "options": [
+      "copy",
+      "view"
+    ]
+  },
+  "description": "The generative UI framework that even humans can use.",
+  "errors": {
+    "404": {
+      "description": "This component doesn't exist.",
+      "redirect": false,
+      "title": "Not found."
+    }
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/PrefectHQ/prefab",
+      "website": "https://www.prefect.io"
+    }
+  },
+  "interaction": {
+    "drilldown": false
+  },
+  "name": "Prefab",
+  "navbar": {
+    "primary": {
+      "href": "https://github.com/PrefectHQ/prefab",
+      "type": "github"
+    }
+  },
+  "navigation": {
+    "dropdowns": [
+      {
+        "dropdown": "Prefab UI Docs",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "welcome",
+              "getting-started/installation",
+              "getting-started/quickstart"
+            ]
+          },
+          {
+            "group": "Concepts",
+            "pages": [
+              "concepts/core-concepts",
+              "concepts/components",
+              "concepts/state",
+              "concepts/expressions",
+              "concepts/actions"
+            ]
+          },
+          {
+            "group": "Apps",
+            "pages": [
+              "reference/app",
+              "styling/themes",
+              "styling/css",
+              "concepts/custom-handlers"
+            ]
+          },
+          {
+            "group": "Running Prefab",
+            "pages": [
+              "playground",
+              "serve",
+              "export",
+              "running/api",
+              "running/fastmcp"
+            ]
+          },
+          {
+            "group": "Examples",
+            "pages": [
+              {
+                "group": "Interactivity",
+                "pages": [
+                  "examples/reactive-binding",
+                  "examples/conditional",
+                  "examples/actions",
+                  "examples/the-button",
+                  "examples/threshold-meter"
+                ]
+              },
+              {
+                "group": "Data & Visualization",
+                "pages": [
+                  "examples/server-dashboard",
+                  "examples/expense-tracker",
+                  "examples/deploy-pipeline",
+                  "examples/sales-dashboard",
+                  "examples/cross-filter"
+                ]
+              },
+              {
+                "group": "Apps",
+                "pages": [
+                  "examples/todo",
+                  "examples/dynamic-list",
+                  "examples/file-upload"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Reference",
+            "pages": [
+              {
+                "group": "Layout",
+                "expanded": false,
+                "pages": [
+                  "components/carousel",
+                  "components/column",
+                  "components/container",
+                  "components/dashboard-grid",
+                  "components/define-use",
+                  "components/div-span",
+                  "components/foreach",
+                  "components/grid",
+                  "components/conditional",
+                  "components/pages",
+                  "components/row",
+                  "components/slot"
+                ]
+              },
+              {
+                "group": "Components",
+                "expanded": false,
+                "pages": [
+                  "components/accordion",
+                  "components/alert",
+                  "components/audio",
+                  "components/badge",
+                  "components/button",
+                  "components/button-group",
+                  "components/card",
+                  "components/code",
+                  "components/data-table",
+                  "components/dialog",
+                  "components/dot",
+                  "components/embed",
+                  "components/hover-card",
+                  "components/icon",
+                  "components/image",
+                  "components/kbd",
+                  "components/label",
+                  "components/loader",
+                  "components/markdown",
+                  "components/mermaid",
+                  "components/metric",
+                  "components/popover",
+                  "components/progress",
+                  "components/ring",
+                  "components/separator",
+                  "components/svg",
+                  "components/table",
+                  "components/tabs",
+                  "components/tooltip",
+                  "components/typography",
+                  "components/video"
+                ]
+              },
+              {
+                "group": "Inputs",
+                "expanded": false,
+                "pages": [
+                  "components/calendar",
+                  "components/checkbox",
+                  "components/choice-card",
+                  "components/combobox",
+                  "components/date-picker",
+                  "components/drop-zone",
+                  "components/field",
+                  "components/form",
+                  "components/input",
+                  "components/radio",
+                  "components/select",
+                  "components/slider",
+                  "components/switch",
+                  "components/textarea"
+                ]
+              },
+              {
+                "group": "Charts",
+                "expanded": false,
+                "pages": [
+                  "components/area-chart",
+                  "components/bar-chart",
+                  "components/histogram",
+                  "components/line-chart",
+                  "components/pie-chart",
+                  "components/radar-chart",
+                  "components/radial-chart",
+                  "components/scatter-chart",
+                  "components/sparkline"
+                ]
+              },
+              {
+                "group": "Actions",
+                "expanded": false,
+                "pages": [
+                  "actions/call-handler",
+                  "actions/fetch",
+                  "actions/open-file-picker",
+                  "actions/open-link",
+                  "actions/set-interval",
+                  "actions/show-toast",
+                  "actions/update-state",
+                  "actions/call-tool",
+                  "actions/send-message",
+                  "actions/update-context",
+                  "actions/request-display-mode"
+                ]
+              },
+              {
+                "group": "Special Variables",
+                "expanded": false,
+                "pages": [
+                  "reactive/error",
+                  "reactive/event",
+                  "reactive/host",
+                  "reactive/index",
+                  "reactive/item",
+                  "reactive/result",
+                  "reactive/state"
+                ]
+              }
+            ]
+          }
+        ],
+        "icon": "palette"
+      },
+      {
+        "dropdown": "Protocol Reference",
+        "groups": [
+          {
+            "group": "Protocol Reference",
+            "pages": [
+              "protocol/overview"
+            ]
+          },
+          {
+            "group": "Layout",
+            "pages": [
+              "protocol/column",
+              "protocol/container",
+              "protocol/dashboard",
+              "protocol/dashboard-item",
+              "protocol/div",
+              "protocol/grid",
+              "protocol/page",
+              "protocol/pages",
+              "protocol/row",
+              "protocol/slot",
+              "protocol/span"
+            ]
+          },
+          {
+            "group": "Control Flow",
+            "pages": [
+              "protocol/condition",
+              "protocol/for-each"
+            ]
+          },
+          {
+            "group": "Components",
+            "pages": [
+              "protocol/accordion",
+              "protocol/audio",
+              "protocol/accordion-item",
+              "protocol/alert",
+              "protocol/alert-description",
+              "protocol/alert-title",
+              "protocol/badge",
+              "protocol/block-quote",
+              "protocol/button",
+              "protocol/button-group",
+              "protocol/calendar",
+              "protocol/card",
+              "protocol/card-content",
+              "protocol/card-description",
+              "protocol/card-footer",
+              "protocol/card-header",
+              "protocol/card-title",
+              "protocol/checkbox",
+              "protocol/code",
+              "protocol/combobox",
+              "protocol/combobox-group",
+              "protocol/combobox-label",
+              "protocol/combobox-option",
+              "protocol/combobox-separator",
+              "protocol/data-table",
+              "protocol/data-table-column",
+              "protocol/choice-card",
+              "protocol/date-picker",
+              "protocol/dialog",
+              "protocol/drop-zone",
+              "protocol/embed",
+              "protocol/field",
+              "protocol/form",
+              "protocol/h1",
+              "protocol/h2",
+              "protocol/h3",
+              "protocol/h4",
+              "protocol/heading",
+              "protocol/hover-card",
+              "protocol/icon",
+              "protocol/image",
+              "protocol/kbd",
+              "protocol/input",
+              "protocol/label",
+              "protocol/large",
+              "protocol/lead",
+              "protocol/loader",
+              "protocol/markdown",
+              "protocol/muted",
+              "protocol/p",
+              "protocol/popover",
+              "protocol/progress",
+              "protocol/radio",
+              "protocol/radio-group",
+              "protocol/select",
+              "protocol/select-group",
+              "protocol/select-label",
+              "protocol/select-option",
+              "protocol/select-separator",
+              "protocol/separator",
+              "protocol/slider",
+              "protocol/small",
+              "protocol/svg",
+              "protocol/switch",
+              "protocol/tab",
+              "protocol/table",
+              "protocol/table-body",
+              "protocol/table-caption",
+              "protocol/table-cell",
+              "protocol/table-footer",
+              "protocol/table-head",
+              "protocol/table-header",
+              "protocol/table-row",
+              "protocol/tabs",
+              "protocol/text",
+              "protocol/textarea",
+              "protocol/tooltip",
+              "protocol/video"
+            ]
+          },
+          {
+            "group": "Charts",
+            "pages": [
+              "protocol/area-chart",
+              "protocol/bar-chart",
+              "protocol/chart-series",
+              "protocol/line-chart",
+              "protocol/pie-chart",
+              "protocol/radar-chart",
+              "protocol/radial-chart",
+              "protocol/scatter-chart"
+            ]
+          },
+          {
+            "group": "Actions",
+            "pages": [
+              "protocol/append-state",
+              "protocol/call-handler",
+              "protocol/fetch",
+              "protocol/open-file-picker",
+              "protocol/open-link",
+              "protocol/pop-state",
+              "protocol/request-display-mode",
+              "protocol/send-message",
+              "protocol/set-interval",
+              "protocol/set-state",
+              "protocol/show-toast",
+              "protocol/toggle-state",
+              "protocol/tool-call",
+              "protocol/update-context"
+            ]
+          }
+        ],
+        "icon": "file-code"
+      }
+    ]
+  },
+  "integrations": {
+    "ga4": {
+      "measurementId": "G-VV148KLN95"
+    }
+  },
+  "search": {
+    "prompt": "Search the docs..."
+  },
+  "styling": {
+    "codeblocks": {
+      "theme": {
+        "dark": "dark-plus",
+        "light": "snazzy-light"
+      }
+    }
+  },
+  "theme": "almond",
+  "thumbnails": {
+    "appearance": "light",
+    "background": "/assets/thumbnail-background.jpeg"
+  }
+}

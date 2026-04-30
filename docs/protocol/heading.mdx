@@ -1,0 +1,120 @@
+---
+title: Heading
+description: JSON Schema for the Heading component.
+---
+
+Section heading (h1-h4).
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "type": {
+      "const": "Heading",
+      "default": "Heading",
+      "type": "string"
+    },
+    "id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "HTML id attribute for CSS targeting. Applied to the outermost element."
+    },
+    "cssClass": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "CSS/Tailwind classes for styling. Accepts a Responsive() for breakpoint-aware classes."
+    },
+    "onMount": {
+      "default": null,
+      "description": "Action(s) to execute when this component mounts."
+    },
+    "content": {
+      "description": "Text content",
+      "type": "string"
+    },
+    "bold": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "default": null
+    },
+    "italic": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "default": null
+    },
+    "underline": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "default": null
+    },
+    "strikethrough": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "default": null
+    },
+    "uppercase": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "default": null
+    },
+    "lowercase": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "default": null
+    },
+    "code": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "default": null
+    },
+    "align": {
+      "enum": [
+        "left",
+        "center",
+        "right",
+        "justify"
+      ],
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null
+    },
+    "level": {
+      "default": 1,
+      "description": "Heading level (1=h1, 4=h4)",
+      "enum": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "type": "integer"
+    }
+  },
+  "required": [
+    "type",
+    "content"
+  ]
+}
+```

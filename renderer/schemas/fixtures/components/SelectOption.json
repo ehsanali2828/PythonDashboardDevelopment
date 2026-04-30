@@ -1,0 +1,7 @@
+{
+  "disabled": false,
+  "label": "test_label",
+  "selected": false,
+  "type": "SelectOption",
+  "value": "test_value"
+}

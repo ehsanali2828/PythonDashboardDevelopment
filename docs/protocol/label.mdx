@@ -1,0 +1,78 @@
+---
+title: Label
+description: JSON Schema for the Label component.
+---
+
+Label element for form fields.
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "type": {
+      "const": "Label",
+      "default": "Label",
+      "type": "string"
+    },
+    "id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "HTML id attribute for CSS targeting. Applied to the outermost element."
+    },
+    "cssClass": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "CSS/Tailwind classes for styling. Accepts a Responsive() for breakpoint-aware classes."
+    },
+    "onMount": {
+      "default": null,
+      "description": "Action(s) to execute when this component mounts."
+    },
+    "children": {
+      "type": "array",
+      "items": {
+        "$ref": "Component"
+      }
+    },
+    "let": {
+      "additionalProperties": true,
+      "type": [
+        "object",
+        "null"
+      ],
+      "default": null,
+      "description": "Scoped bindings available to children. Values are template strings."
+    },
+    "text": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "Label text"
+    },
+    "forId": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "ID of the associated form field"
+    },
+    "optional": {
+      "default": false,
+      "description": "Whether to show an '(optional)' indicator after the label text",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "type"
+  ]
+}
+```

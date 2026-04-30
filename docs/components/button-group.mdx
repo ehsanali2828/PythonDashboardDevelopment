@@ -1,0 +1,185 @@
+---
+title: Button Group
+description: Visually connect related buttons with merged borders.
+icon: object-group
+---
+
+import { ComponentPreview } from '/snippets/component-preview.mdx'
+
+Button groups join related actions into a single visual unit. Borders between buttons merge, and only the outer corners stay rounded.
+
+## Basic Usage
+
+<ComponentPreview json={{"view":{"type":"ButtonGroup","orientation":"horizontal","children":[{"type":"Button","label":"Save","variant":"default","size":"default","disabled":false},{"type":"Button","label":"Cancel","variant":"outline","size":"default","disabled":false}]}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgQnV0dG9uLCBCdXR0b25Hcm91cAoKd2l0aCBCdXR0b25Hcm91cCgpOgogICAgQnV0dG9uKCJTYXZlIikKICAgIEJ1dHRvbigiQ2FuY2VsIiwgdmFyaWFudD0ib3V0bGluZSIpCg">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import Button, ButtonGroup
+
+with ButtonGroup():
+    Button("Save")
+    Button("Cancel", variant="outline")
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "type": "ButtonGroup",
+    "orientation": "horizontal",
+    "children": [
+      {
+        "type": "Button",
+        "label": "Save",
+        "variant": "default",
+        "size": "default",
+        "disabled": false
+      },
+      {
+        "type": "Button",
+        "label": "Cancel",
+        "variant": "outline",
+        "size": "default",
+        "disabled": false
+      }
+    ]
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## Orientation
+
+Horizontal (default) groups buttons side-by-side. Vertical stacks them:
+
+<ComponentPreview json={{"view":{"type":"ButtonGroup","orientation":"vertical","children":[{"type":"Button","label":"Top","variant":"default","size":"default","disabled":false},{"type":"Button","label":"Middle","variant":"outline","size":"default","disabled":false},{"type":"Button","label":"Bottom","variant":"outline","size":"default","disabled":false}]}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgQnV0dG9uLCBCdXR0b25Hcm91cAoKd2l0aCBCdXR0b25Hcm91cChvcmllbnRhdGlvbj0idmVydGljYWwiKToKICAgIEJ1dHRvbigiVG9wIikKICAgIEJ1dHRvbigiTWlkZGxlIiwgdmFyaWFudD0ib3V0bGluZSIpCiAgICBCdXR0b24oIkJvdHRvbSIsIHZhcmlhbnQ9Im91dGxpbmUiKQo">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import Button, ButtonGroup
+
+with ButtonGroup(orientation="vertical"):
+    Button("Top")
+    Button("Middle", variant="outline")
+    Button("Bottom", variant="outline")
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "type": "ButtonGroup",
+    "orientation": "vertical",
+    "children": [
+      {
+        "type": "Button",
+        "label": "Top",
+        "variant": "default",
+        "size": "default",
+        "disabled": false
+      },
+      {
+        "type": "Button",
+        "label": "Middle",
+        "variant": "outline",
+        "size": "default",
+        "disabled": false
+      },
+      {
+        "type": "Button",
+        "label": "Bottom",
+        "variant": "outline",
+        "size": "default",
+        "disabled": false
+      }
+    ]
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## Common Patterns
+
+Pagination controls, view toggles, and segmented controls all benefit from button groups:
+
+<ComponentPreview json={{"view":{"type":"ButtonGroup","orientation":"horizontal","children":[{"type":"Button","label":"Previous","variant":"outline","size":"default","disabled":false},{"type":"Button","label":"1","variant":"default","size":"default","disabled":false},{"type":"Button","label":"2","variant":"outline","size":"default","disabled":false},{"type":"Button","label":"3","variant":"outline","size":"default","disabled":false},{"type":"Button","label":"Next","variant":"outline","size":"default","disabled":false}]}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgQnV0dG9uLCBCdXR0b25Hcm91cAoKd2l0aCBCdXR0b25Hcm91cCgpOgogICAgQnV0dG9uKCJQcmV2aW91cyIsIHZhcmlhbnQ9Im91dGxpbmUiKQogICAgQnV0dG9uKCIxIikKICAgIEJ1dHRvbigiMiIsIHZhcmlhbnQ9Im91dGxpbmUiKQogICAgQnV0dG9uKCIzIiwgdmFyaWFudD0ib3V0bGluZSIpCiAgICBCdXR0b24oIk5leHQiLCB2YXJpYW50PSJvdXRsaW5lIikK">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import Button, ButtonGroup
+
+with ButtonGroup():
+    Button("Previous", variant="outline")
+    Button("1")
+    Button("2", variant="outline")
+    Button("3", variant="outline")
+    Button("Next", variant="outline")
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "type": "ButtonGroup",
+    "orientation": "horizontal",
+    "children": [
+      {
+        "type": "Button",
+        "label": "Previous",
+        "variant": "outline",
+        "size": "default",
+        "disabled": false
+      },
+      {
+        "type": "Button",
+        "label": "1",
+        "variant": "default",
+        "size": "default",
+        "disabled": false
+      },
+      {
+        "type": "Button",
+        "label": "2",
+        "variant": "outline",
+        "size": "default",
+        "disabled": false
+      },
+      {
+        "type": "Button",
+        "label": "3",
+        "variant": "outline",
+        "size": "default",
+        "disabled": false
+      },
+      {
+        "type": "Button",
+        "label": "Next",
+        "variant": "outline",
+        "size": "default",
+        "disabled": false
+      }
+    ]
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## API Reference
+
+<Card icon="code" title="ButtonGroup Parameters">
+<ParamField body="orientation" type="str" default='"horizontal"'>
+  Layout direction: `"horizontal"` or `"vertical"`.
+</ParamField>
+
+<ParamField body="css_class" type="str | None" default="None">
+  Additional Tailwind CSS classes appended to the component's built-in styles.
+</ParamField>
+</Card>
+
+## Protocol Reference
+
+```json ButtonGroup
+{
+  "type": "ButtonGroup",
+  "children?": "[Component]",
+  "let?": "object",
+  "orientation?": "horizontal | vertical",
+  "cssClass?": "string"
+}
+```
+
+For the complete protocol schema, see [ButtonGroup](/protocol/button-group).

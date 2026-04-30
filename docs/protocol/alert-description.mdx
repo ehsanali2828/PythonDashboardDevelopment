@@ -1,0 +1,47 @@
+---
+title: AlertDescription
+description: JSON Schema for the AlertDescription component.
+---
+
+Alert description text.
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "type": {
+      "const": "AlertDescription",
+      "default": "AlertDescription",
+      "type": "string"
+    },
+    "id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "HTML id attribute for CSS targeting. Applied to the outermost element."
+    },
+    "cssClass": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "CSS/Tailwind classes for styling. Accepts a Responsive() for breakpoint-aware classes."
+    },
+    "onMount": {
+      "default": null,
+      "description": "Action(s) to execute when this component mounts."
+    },
+    "content": {
+      "description": "Description text",
+      "type": "string"
+    }
+  },
+  "required": [
+    "type",
+    "content"
+  ]
+}
+```

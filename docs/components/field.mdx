@@ -1,0 +1,251 @@
+---
+title: Field
+description: Composable form field wrapper with validation styling.
+icon: rectangle-list
+---
+
+import { ComponentPreview } from '/snippets/component-preview.mdx'
+
+Field groups a label, control, and error message into a single unit. Its main job is validation styling — when `invalid` is set, all text inside the Field turns red automatically, so the label, description, and error message all respond without wiring each one individually.
+
+## Basic Usage
+
+At its simplest, Field is a vertical container that groups a Label with a control.
+
+<ComponentPreview json={{"view":{"cssClass":"gap-4","type":"Column","children":[{"type":"Field","invalid":false,"disabled":false,"children":[{"type":"Label","text":"Username","optional":false},{"name":"username","type":"Input","inputType":"text","placeholder":"Choose a username","disabled":false,"readOnly":false,"required":false}]},{"type":"Field","invalid":false,"disabled":false,"children":[{"type":"Label","text":"Email","optional":false},{"name":"email","type":"Input","inputType":"text","placeholder":"you@example.com","disabled":false,"readOnly":false,"required":false}]}]}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgQ29sdW1uLCBGaWVsZCwgSW5wdXQsIExhYmVsCgp3aXRoIENvbHVtbihnYXA9NCk6CiAgICB3aXRoIEZpZWxkKCk6CiAgICAgICAgTGFiZWwoIlVzZXJuYW1lIikKICAgICAgICBJbnB1dChuYW1lPSJ1c2VybmFtZSIsIHBsYWNlaG9sZGVyPSJDaG9vc2UgYSB1c2VybmFtZSIpCgogICAgd2l0aCBGaWVsZCgpOgogICAgICAgIExhYmVsKCJFbWFpbCIpCiAgICAgICAgSW5wdXQobmFtZT0iZW1haWwiLCBwbGFjZWhvbGRlcj0ieW91QGV4YW1wbGUuY29tIikK">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import Column, Field, Input, Label
+
+with Column(gap=4):
+    with Field():
+        Label("Username")
+        Input(name="username", placeholder="Choose a username")
+
+    with Field():
+        Label("Email")
+        Input(name="email", placeholder="you@example.com")
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "cssClass": "gap-4",
+    "type": "Column",
+    "children": [
+      {
+        "type": "Field",
+        "invalid": false,
+        "disabled": false,
+        "children": [
+          {"type": "Label", "text": "Username", "optional": false},
+          {
+            "name": "username",
+            "type": "Input",
+            "inputType": "text",
+            "placeholder": "Choose a username",
+            "disabled": false,
+            "readOnly": false,
+            "required": false
+          }
+        ]
+      },
+      {
+        "type": "Field",
+        "invalid": false,
+        "disabled": false,
+        "children": [
+          {"type": "Label", "text": "Email", "optional": false},
+          {
+            "name": "email",
+            "type": "Input",
+            "inputType": "text",
+            "placeholder": "you@example.com",
+            "disabled": false,
+            "readOnly": false,
+            "required": false
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## Validation
+
+Set `invalid` to highlight a field as having an error. Since `invalid` accepts reactive expressions, you can tie it to state. Toggle the checkbox below — the label turns red and the error message appears automatically when the field becomes invalid.
+
+<ComponentPreview json={{"view":{"type":"Field","invalid":"{{ !agree }}","disabled":false,"children":[{"type":"Label","text":"Terms and conditions","optional":false},{"name":"agree","value":false,"type":"Checkbox","label":"I accept the terms of service","disabled":false,"required":false},{"type":"FieldError","content":"You must accept the terms to continue."}]},"state":{"agree":false}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgQ2hlY2tib3gsIEZpZWxkLCBGaWVsZEVycm9yLCBMYWJlbCwgUngKCndpdGggRmllbGQoaW52YWxpZD1SeCgiIWFncmVlIikpOgogICAgTGFiZWwoIlRlcm1zIGFuZCBjb25kaXRpb25zIikKICAgIENoZWNrYm94KG5hbWU9ImFncmVlIiwgbGFiZWw9IkkgYWNjZXB0IHRoZSB0ZXJtcyBvZiBzZXJ2aWNlIikKICAgIEZpZWxkRXJyb3IoIllvdSBtdXN0IGFjY2VwdCB0aGUgdGVybXMgdG8gY29udGludWUuIikK">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import Checkbox, Field, FieldError, Label, Rx
+
+with Field(invalid=Rx("!agree")):
+    Label("Terms and conditions")
+    Checkbox(name="agree", label="I accept the terms of service")
+    FieldError("You must accept the terms to continue.")
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "type": "Field",
+    "invalid": "{{ !agree }}",
+    "disabled": false,
+    "children": [
+      {"type": "Label", "text": "Terms and conditions", "optional": false},
+      {
+        "name": "agree",
+        "value": false,
+        "type": "Checkbox",
+        "label": "I accept the terms of service",
+        "disabled": false,
+        "required": false
+      },
+      {"type": "FieldError", "content": "You must accept the terms to continue."}
+    ]
+  },
+  "state": {"agree": false}
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+The `data-invalid` attribute on the Field cascades via CSS to all text descendants — the label turns red automatically. `FieldError` is hidden by default and only appears when its parent Field is invalid, so you don't need to wrap it in a conditional.
+
+## Choice Cards
+
+[ChoiceCard](/components/choice-card) is a Field subclass that renders as a bordered, clickable card — useful for settings pages where each row has a toggle. See the [ChoiceCard docs](/components/choice-card) for details.
+
+<ComponentPreview json={{"view":{"cssClass":"gap-4","type":"Column","children":[{"type":"ChoiceCard","invalid":false,"disabled":false,"children":[{"type":"FieldContent","children":[{"type":"FieldTitle","content":"Marketing emails"},{"type":"FieldDescription","content":"Receive emails about new products and features."}]},{"name":"switch_5","value":false,"type":"Switch","size":"default","disabled":false,"required":false}]},{"type":"ChoiceCard","invalid":false,"disabled":false,"children":[{"type":"FieldContent","children":[{"type":"FieldTitle","content":"Security emails"},{"type":"FieldDescription","content":"Receive emails about your account activity."}]},{"name":"switch_6","value":true,"type":"Switch","size":"default","disabled":false,"required":false}]}]},"state":{"switch_5":false,"switch_6":true}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgKAogICAgQ2hvaWNlQ2FyZCwgQ29sdW1uLCBGaWVsZENvbnRlbnQsIEZpZWxkRGVzY3JpcHRpb24sIEZpZWxkVGl0bGUsIFN3aXRjaCwKKQoKd2l0aCBDb2x1bW4oZ2FwPTQpOgogICAgd2l0aCBDaG9pY2VDYXJkKCk6CiAgICAgICAgd2l0aCBGaWVsZENvbnRlbnQoKToKICAgICAgICAgICAgRmllbGRUaXRsZSgiTWFya2V0aW5nIGVtYWlscyIpCiAgICAgICAgICAgIEZpZWxkRGVzY3JpcHRpb24oCiAgICAgICAgICAgICAgICAiUmVjZWl2ZSBlbWFpbHMgYWJvdXQgbmV3IHByb2R1Y3RzIGFuZCBmZWF0dXJlcy4iCiAgICAgICAgICAgICkKICAgICAgICBTd2l0Y2goKQoKICAgIHdpdGggQ2hvaWNlQ2FyZCgpOgogICAgICAgIHdpdGggRmllbGRDb250ZW50KCk6CiAgICAgICAgICAgIEZpZWxkVGl0bGUoIlNlY3VyaXR5IGVtYWlscyIpCiAgICAgICAgICAgIEZpZWxkRGVzY3JpcHRpb24oCiAgICAgICAgICAgICAgICAiUmVjZWl2ZSBlbWFpbHMgYWJvdXQgeW91ciBhY2NvdW50IGFjdGl2aXR5LiIKICAgICAgICAgICAgKQogICAgICAgIFN3aXRjaCh2YWx1ZT1UcnVlKQo">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import (
+    ChoiceCard, Column, FieldContent, FieldDescription, FieldTitle, Switch,
+)
+
+with Column(gap=4):
+    with ChoiceCard():
+        with FieldContent():
+            FieldTitle("Marketing emails")
+            FieldDescription(
+                "Receive emails about new products and features."
+            )
+        Switch()
+
+    with ChoiceCard():
+        with FieldContent():
+            FieldTitle("Security emails")
+            FieldDescription(
+                "Receive emails about your account activity."
+            )
+        Switch(value=True)
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "cssClass": "gap-4",
+    "type": "Column",
+    "children": [
+      {
+        "type": "ChoiceCard",
+        "invalid": false,
+        "disabled": false,
+        "children": [
+          {
+            "type": "FieldContent",
+            "children": [
+              {"type": "FieldTitle", "content": "Marketing emails"},
+              {
+                "type": "FieldDescription",
+                "content": "Receive emails about new products and features."
+              }
+            ]
+          },
+          {
+            "name": "switch_5",
+            "value": false,
+            "type": "Switch",
+            "size": "default",
+            "disabled": false,
+            "required": false
+          }
+        ]
+      },
+      {
+        "type": "ChoiceCard",
+        "invalid": false,
+        "disabled": false,
+        "children": [
+          {
+            "type": "FieldContent",
+            "children": [
+              {"type": "FieldTitle", "content": "Security emails"},
+              {
+                "type": "FieldDescription",
+                "content": "Receive emails about your account activity."
+              }
+            ]
+          },
+          {
+            "name": "switch_6",
+            "value": true,
+            "type": "Switch",
+            "size": "default",
+            "disabled": false,
+            "required": false
+          }
+        ]
+      }
+    ]
+  },
+  "state": {"switch_5": false, "switch_6": true}
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## API Reference
+
+<Card icon="code" title="Field">
+<ParamField body="invalid" type="bool | str" default="False">
+  Whether the field is in an error state. Accepts a reactive expression like `Rx("!email")` to tie validation to state.
+</ParamField>
+
+<ParamField body="disabled" type="bool | str" default="False">
+  Whether the field is dimmed and non-interactive. Accepts reactive expressions.
+</ParamField>
+
+<ParamField body="css_class" type="str | None" default="None">
+  Additional Tailwind CSS classes.
+</ParamField>
+</Card>
+
+<Card icon="code" title="FieldError">
+<ParamField body="content" type="str" required>
+  Error message text, always rendered in destructive (red) styling.
+</ParamField>
+</Card>
+
+## Protocol Reference
+
+```json Field
+{
+  "type": "Field",
+  "children?": "[Component]",
+  "let?": "object",
+  "invalid?": false,
+  "disabled?": false,
+  "cssClass?": "string"
+}
+```
+
+```json FieldError
+{
+  "type": "FieldError",
+  "content": "string (required)"
+}
+```
+
+For the complete protocol schema, see [Field](/protocol/field).

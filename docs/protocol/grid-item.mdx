@@ -1,0 +1,67 @@
+---
+title: GridItem
+description: JSON Schema for the GridItem component.
+---
+
+A child of `Grid` that spans multiple columns or rows.
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "type": {
+      "const": "GridItem",
+      "default": "GridItem",
+      "type": "string"
+    },
+    "id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "HTML id attribute for CSS targeting. Applied to the outermost element."
+    },
+    "cssClass": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "CSS/Tailwind classes for styling. Accepts a Responsive() for breakpoint-aware classes."
+    },
+    "onMount": {
+      "default": null,
+      "description": "Action(s) to execute when this component mounts."
+    },
+    "children": {
+      "type": "array",
+      "items": {
+        "$ref": "Component"
+      }
+    },
+    "let": {
+      "additionalProperties": true,
+      "type": [
+        "object",
+        "null"
+      ],
+      "default": null,
+      "description": "Scoped bindings available to children. Values are template strings."
+    },
+    "colSpan": {
+      "default": 1,
+      "description": "Number of columns to span.",
+      "type": "integer"
+    },
+    "rowSpan": {
+      "default": 1,
+      "description": "Number of rows to span.",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "type"
+  ]
+}
+```

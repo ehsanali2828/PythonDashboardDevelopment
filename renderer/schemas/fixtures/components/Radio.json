@@ -1,0 +1,8 @@
+{
+  "disabled": false,
+  "name": "radio_1",
+  "option": "test_option",
+  "required": false,
+  "type": "Radio",
+  "value": false
+}

@@ -1,0 +1,8 @@
+{
+  "disabled": false,
+  "name": "switch_1",
+  "required": false,
+  "size": "default",
+  "type": "Switch",
+  "value": false
+}

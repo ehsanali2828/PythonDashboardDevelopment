@@ -1,0 +1,87 @@
+---
+title: HoverCard
+description: JSON Schema for the HoverCard component.
+---
+
+Hover card with rich content.
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "type": {
+      "const": "HoverCard",
+      "default": "HoverCard",
+      "type": "string"
+    },
+    "id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "HTML id attribute for CSS targeting. Applied to the outermost element."
+    },
+    "cssClass": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "CSS/Tailwind classes for styling. Accepts a Responsive() for breakpoint-aware classes."
+    },
+    "onMount": {
+      "default": null,
+      "description": "Action(s) to execute when this component mounts."
+    },
+    "children": {
+      "type": "array",
+      "items": {
+        "$ref": "Component"
+      }
+    },
+    "let": {
+      "additionalProperties": true,
+      "type": [
+        "object",
+        "null"
+      ],
+      "default": null,
+      "description": "Scoped bindings available to children. Values are template strings."
+    },
+    "side": {
+      "enum": [
+        "top",
+        "right",
+        "bottom",
+        "left"
+      ],
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "Which side to show the hover card"
+    },
+    "openDelay": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "default": null,
+      "description": "Delay in milliseconds before opening"
+    },
+    "closeDelay": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "default": null,
+      "description": "Delay in milliseconds before closing"
+    }
+  },
+  "required": [
+    "type"
+  ]
+}
+```

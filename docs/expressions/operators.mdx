@@ -1,0 +1,249 @@
+---
+title: Operators
+description: Arithmetic, comparison, logical, and conditional operators for reactive expressions.
+icon: calculator
+---
+
+import { ComponentPreview } from '/snippets/component-preview.mdx'
+
+The [Reactivity](/expressions/overview) page introduced `{{ count + 1 }}` as a way to compute new values from state. Expressions support a full set of operators — arithmetic, comparisons, boolean logic, and conditionals — that let you build complex display logic without leaving the browser.
+
+Here's a component that uses several of them together: arithmetic to increment and decrement a quantity, multiplication to compute a total, and a formatting pipe to display it as currency.
+
+<ComponentPreview json={{"view":{"cssClass":"gap-3","type":"Column","children":[{"cssClass":"gap-2 items-center","type":"Row","children":[{"content":"Quantity:","type":"Text"},{"type":"Button","label":"-","variant":"outline","size":"default","disabled":false,"onClick":{"action":"setState","key":"quantity","value":"{{ quantity - 1 }}"}},{"content":"{{ quantity }}","type":"Text"},{"type":"Button","label":"+","variant":"outline","size":"default","disabled":false,"onClick":{"action":"setState","key":"quantity","value":"{{ quantity + 1 }}"}}]},{"content":"Total: {{ price * quantity | currency }}","type":"Text"}]}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgU1RBVEUgYXMgc3RhdGUsIEJ1dHRvbiwgQ29sdW1uLCBSb3csIFRleHQKZnJvbSBwcmVmYWJfdWkuYWN0aW9ucyBpbXBvcnQgU2V0U3RhdGUKCgp3aXRoIENvbHVtbihnYXA9Myk6CiAgICB3aXRoIFJvdyhnYXA9MiwgYWxpZ249ImNlbnRlciIpOgogICAgICAgIFRleHQoIlF1YW50aXR5OiIpCiAgICAgICAgQnV0dG9uKCItIiwgdmFyaWFudD0ib3V0bGluZSIsIG9uX2NsaWNrPVNldFN0YXRlKCJxdWFudGl0eSIsIHN0YXRlLnF1YW50aXR5IC0gMSkpCiAgICAgICAgVGV4dChzdGF0ZS5xdWFudGl0eSkKICAgICAgICBCdXR0b24oIisiLCB2YXJpYW50PSJvdXRsaW5lIiwgb25fY2xpY2s9U2V0U3RhdGUoInF1YW50aXR5Iiwgc3RhdGUucXVhbnRpdHkgKyAxKSkKICAgIFRleHQoZiJUb3RhbDogeyhzdGF0ZS5wcmljZSAqIHN0YXRlLnF1YW50aXR5KS5jdXJyZW5jeSgpfSIpCg">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import STATE as state, Button, Column, Row, Text
+from prefab_ui.actions import SetState
+
+
+with Column(gap=3):
+    with Row(gap=2, align="center"):
+        Text("Quantity:")
+        Button("-", variant="outline", on_click=SetState("quantity", state.quantity - 1))
+        Text(state.quantity)
+        Button("+", variant="outline", on_click=SetState("quantity", state.quantity + 1))
+    Text(f"Total: {(state.price * state.quantity).currency()}")
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "cssClass": "gap-3",
+    "type": "Column",
+    "children": [
+      {
+        "cssClass": "gap-2 items-center",
+        "type": "Row",
+        "children": [
+          {"content": "Quantity:", "type": "Text"},
+          {
+            "type": "Button",
+            "label": "-",
+            "variant": "outline",
+            "size": "default",
+            "disabled": false,
+            "onClick": {"action": "setState", "key": "quantity", "value": "{{ quantity - 1 }}"}
+          },
+          {"content": "{{ quantity }}", "type": "Text"},
+          {
+            "type": "Button",
+            "label": "+",
+            "variant": "outline",
+            "size": "default",
+            "disabled": false,
+            "onClick": {"action": "setState", "key": "quantity", "value": "{{ quantity + 1 }}"}
+          }
+        ]
+      },
+      {"content": "Total: {{ price * quantity | currency }}", "type": "Text"}
+    ]
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+The rest of this page walks through each operator type. Every example shows the Python `Rx` syntax and the `{{ }}` protocol expression it compiles to.
+
+## Arithmetic
+
+`Rx` objects overload Python's arithmetic operators, so `price * quantity` in your Python code compiles to `{{ price * quantity }}` in the protocol. The quantity selector above uses addition, subtraction, and multiplication — here's the full set:
+
+| Python | Protocol | Description |
+|--------|----------|-------------|
+| `count + 1` | `{{ count + 1 }}` | Addition |
+| `total - discount` | `{{ total - discount }}` | Subtraction |
+| `price * quantity` | `{{ price * quantity }}` | Multiplication |
+| `amount / 2` | `{{ amount / 2 }}` | Division |
+| `-score` | `{{ -score }}` | Negation |
+
+Arithmetic expressions can appear anywhere a value is expected — in a `Text` component, in a `SetState` action, or in a prop like `Progress(value=...)`. The renderer evaluates them against current state each time a referenced key changes.
+
+## String Concatenation
+
+The `+` operator does double duty: if either operand is a string, it concatenates instead of adding. But in Python, **f-strings are almost always the better choice** for mixing reactive values with literal text. Each `Rx` reference inside an f-string becomes a separate `{{ }}` interpolation in the output:
+
+<ComponentPreview json={{"view":{"cssClass":"gap-3","type":"Column","children":[{"cssClass":"gap-2","type":"Row","children":[{"name":"first","type":"Input","inputType":"text","placeholder":"First name","disabled":false,"readOnly":false,"required":false},{"name":"last","type":"Input","inputType":"text","placeholder":"Last name","disabled":false,"readOnly":false,"required":false}]},{"content":"Hello, {{ first }} {{ last }}!","type":"Text"}]}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgU1RBVEUgYXMgc3RhdGUsIENvbHVtbiwgSW5wdXQsIFJvdywgVGV4dAoKCndpdGggQ29sdW1uKGdhcD0zKToKICAgIHdpdGggUm93KGdhcD0yKToKICAgICAgICBJbnB1dChuYW1lPSJmaXJzdCIsIHBsYWNlaG9sZGVyPSJGaXJzdCBuYW1lIikKICAgICAgICBJbnB1dChuYW1lPSJsYXN0IiwgcGxhY2Vob2xkZXI9Ikxhc3QgbmFtZSIpCiAgICBUZXh0KGYiSGVsbG8sIHtzdGF0ZS5maXJzdH0ge3N0YXRlLmxhc3R9ISIpCg">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import STATE as state, Column, Input, Row, Text
+
+
+with Column(gap=3):
+    with Row(gap=2):
+        Input(name="first", placeholder="First name")
+        Input(name="last", placeholder="Last name")
+    Text(f"Hello, {state.first} {state.last}!")
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "cssClass": "gap-3",
+    "type": "Column",
+    "children": [
+      {
+        "cssClass": "gap-2",
+        "type": "Row",
+        "children": [
+          {
+            "name": "first",
+            "type": "Input",
+            "inputType": "text",
+            "placeholder": "First name",
+            "disabled": false,
+            "readOnly": false,
+            "required": false
+          },
+          {
+            "name": "last",
+            "type": "Input",
+            "inputType": "text",
+            "placeholder": "Last name",
+            "disabled": false,
+            "readOnly": false,
+            "required": false
+          }
+        ]
+      },
+      {"content": "Hello, {{ first }} {{ last }}!", "type": "Text"}
+    ]
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+In the protocol, you can also concatenate with `+` inside a single expression: `{{ 'Hello, ' + first + ' ' + last + '!' }}`. F-strings are almost always cleaner.
+
+## Comparison
+
+Six comparison operators return boolean values. On their own, a boolean isn't very useful in a `Text` component — but comparisons are the foundation for two things you'll use constantly: **conditional rendering** with [If/Elif/Else](/components/conditional), and **conditional values** with the ternary operator (covered below).
+
+| Python | Protocol | Meaning |
+|--------|----------|---------|
+| `count > 0` | `{{ count > 0 }}` | Greater than |
+| `count >= 10` | `{{ count >= 10 }}` | Greater than or equal |
+| `count < 100` | `{{ count < 100 }}` | Less than |
+| `count <= 50` | `{{ count <= 50 }}` | Less than or equal |
+| `status == 'active'` | `{{ status == 'active' }}` | Equal (loose) |
+| `status != 'done'` | `{{ status != 'done' }}` | Not equal |
+
+Here's the most common pattern — showing different content based on a state value:
+
+```python
+from prefab_ui.rx import Rx
+from prefab_ui.components import Alert
+from prefab_ui.components.control_flow import If, Elif
+
+inventory = Rx("inventory")
+
+with If(inventory == 0):
+    Alert("Out of stock", variant="destructive")
+with Elif((inventory > 0) & (inventory < 10)):
+    Alert("Low stock")
+```
+
+The `If` component receives a boolean expression and only renders its children when the expression is true. When `inventory` changes, the conditions re-evaluate and the UI updates to show the right alert.
+
+## Logical
+
+Boolean operators combine multiple conditions. Python doesn't allow overloading `and`, `or`, and `not`, so `Rx` uses the bitwise operators `&`, `|`, and `~` instead. They compile to `&&`, `||`, and `!` in the protocol:
+
+| Python | Protocol | Meaning |
+|--------|----------|---------|
+| `a & b` | `{{ a && b }}` | Logical AND |
+| `a \| b` | `{{ a \|\| b }}` | Logical OR |
+| `~a` | `{{ !a }}` | Logical NOT |
+
+The protocol also accepts keyword forms `and`, `or`, and `not` — use whichever reads better in context.
+
+Both `&&` and `||` short-circuit, which makes `||` useful as a default-value mechanism: `{{ name || 'Anonymous' }}` returns `'Anonymous'` when `name` is falsy (undefined, empty string, `false`, or `0`).
+
+<Warning>
+**Python precedence gotcha.** Bitwise `&` and `|` bind tighter than `>`, `<`, `==`, etc. in Python. Without parentheses, `score > 0 & score < 100` parses as `score > (0 & score) < 100`, which is not what you want. Always wrap each comparison in parentheses when combining with `&` or `|`:
+
+```python
+# Correct
+(score > 0) & (score < 100)
+
+# Wrong — parsed as score > (0 & score) < 100
+score > 0 & score < 100
+```
+
+This is a Python quirk, not a Prefab one. The protocol's `{{ }}` expressions don't have this issue — `&&` and `||` have lower precedence than comparisons there.
+</Warning>
+
+## Ternary
+
+Sometimes you need to choose between two values based on a condition — "Online" or "Offline", "Pass" or "Fail", one color or another. The `.then(if_true, if_false)` method on `Rx` handles this, compiling to the protocol's `condition ? ifTrue : ifFalse` syntax:
+
+<ComponentPreview json={{"view":{"cssClass":"gap-2","type":"Column","children":[{"cssClass":"gap-3 items-center","type":"Row","children":[{"name":"active","value":false,"type":"Switch","size":"default","disabled":false,"required":false},{"content":"{{ active ? 'Online' : 'Offline' }}","type":"Text"}]}]},"state":{"active":false}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgU1RBVEUgYXMgc3RhdGUsIENvbHVtbiwgUm93LCBTd2l0Y2gsIFRleHQKCgp3aXRoIENvbHVtbihnYXA9Mik6CiAgICB3aXRoIFJvdyhnYXA9MywgYWxpZ249ImNlbnRlciIpOgogICAgICAgIFN3aXRjaChuYW1lPSJhY3RpdmUiKQogICAgICAgIFRleHQoc3RhdGUuYWN0aXZlLnRoZW4oIk9ubGluZSIsICJPZmZsaW5lIikpCg">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import STATE as state, Column, Row, Switch, Text
+
+
+with Column(gap=2):
+    with Row(gap=3, align="center"):
+        Switch(name="active")
+        Text(state.active.then("Online", "Offline"))
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "cssClass": "gap-2",
+    "type": "Column",
+    "children": [
+      {
+        "cssClass": "gap-3 items-center",
+        "type": "Row",
+        "children": [
+          {
+            "name": "active",
+            "value": false,
+            "type": "Switch",
+            "size": "default",
+            "disabled": false,
+            "required": false
+          },
+          {"content": "{{ active ? 'Online' : 'Offline' }}", "type": "Text"}
+        ]
+      }
+    ]
+  },
+  "state": {"active": false}
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+Toggle the switch — the text updates instantly between "Online" and "Offline".
+
+| Python | Protocol |
+|--------|----------|
+| `active.then("On", "Off")` | `{{ active ? 'On' : 'Off' }}` |
+| `(score > 90).then("Pass", "Fail")` | `{{ score > 90 ? 'Pass' : 'Fail' }}` |
+
+Ternaries can technically be nested — `(score > 90).then("A", (score > 80).then("B", "C"))` — but readability suffers quickly. For anything beyond a simple two-way choice, [If/Elif/Else](/components/conditional) is almost always cleaner.
+
+When in doubt about any expression, add parentheses. The `Rx` DSL handles parenthesization automatically in the compiled output, so explicit parens in Python never hurt.

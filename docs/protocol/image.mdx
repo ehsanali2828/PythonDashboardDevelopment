@@ -1,0 +1,68 @@
+---
+title: Image
+description: JSON Schema for the Image component.
+---
+
+Image element.
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "type": {
+      "const": "Image",
+      "default": "Image",
+      "type": "string"
+    },
+    "id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "HTML id attribute for CSS targeting. Applied to the outermost element."
+    },
+    "cssClass": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "CSS/Tailwind classes for styling. Accepts a Responsive() for breakpoint-aware classes."
+    },
+    "onMount": {
+      "default": null,
+      "description": "Action(s) to execute when this component mounts."
+    },
+    "src": {
+      "description": "Image URL",
+      "type": "string"
+    },
+    "alt": {
+      "default": "",
+      "description": "Alt text",
+      "type": "string"
+    },
+    "width": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "CSS width"
+    },
+    "height": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "CSS height"
+    }
+  },
+  "required": [
+    "type",
+    "src"
+  ]
+}
+```

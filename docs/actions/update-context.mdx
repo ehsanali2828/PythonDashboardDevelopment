@@ -1,0 +1,151 @@
+---
+title: Update MCP Context
+sidebarTitle: "MCP: Update Context"
+description: Silently update the model's context from a UI interaction.
+icon: database
+---
+
+import { ComponentPreview } from '/snippets/component-preview.mdx'
+
+`UpdateContext` feeds information into the conversation without triggering a visible response. Where `SendMessage` creates a chat message the user sees, `UpdateContext` works behind the scenes — it updates what the model knows without interrupting the flow.
+
+<ComponentPreview json={{"view":{"type":"Button","label":"Use Advanced Mode","variant":"default","size":"default","disabled":false,"onClick":{"action":"updateContext","content":"User has selected advanced mode. Provide detailed technical responses."}}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgQnV0dG9uCmZyb20gcHJlZmFiX3VpLmFjdGlvbnMubWNwIGltcG9ydCBVcGRhdGVDb250ZXh0CgpCdXR0b24oCiAgICAiVXNlIEFkdmFuY2VkIE1vZGUiLAogICAgb25fY2xpY2s9VXBkYXRlQ29udGV4dCgKICAgICAgICBjb250ZW50PSJVc2VyIGhhcyBzZWxlY3RlZCBhZHZhbmNlZCBtb2RlLiBQcm92aWRlIGRldGFpbGVkIHRlY2huaWNhbCByZXNwb25zZXMuIgogICAgKSwKKQo">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import Button
+from prefab_ui.actions.mcp import UpdateContext
+
+Button(
+    "Use Advanced Mode",
+    on_click=UpdateContext(
+        content="User has selected advanced mode. Provide detailed technical responses."
+    ),
+)
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "type": "Button",
+    "label": "Use Advanced Mode",
+    "variant": "default",
+    "size": "default",
+    "disabled": false,
+    "onClick": {
+      "action": "updateContext",
+      "content": "User has selected advanced mode. Provide detailed technical responses."
+    }
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## When to Use It
+
+`UpdateContext` is for situations where the UI interaction should inform the model's future behavior without generating an immediate response:
+
+- User selects a preference or mode that should influence subsequent answers
+- A form submission captures structured data the model should reference later
+- Background state changes that provide context for the next conversation turn
+
+## Structured Content
+
+For richer data, pass a dict instead of plain text:
+
+<ComponentPreview json={{"view":{"cssClass":"gap-3","type":"Column","children":[{"name":"thinking","type":"Select","placeholder":"Thinking level...","size":"default","disabled":false,"required":false,"invalid":false,"children":[{"type":"SelectOption","value":"low","label":"Low","selected":false,"disabled":false},{"type":"SelectOption","value":"medium","label":"Medium","selected":false,"disabled":false},{"type":"SelectOption","value":"high","label":"High","selected":false,"disabled":false}]},{"type":"Button","label":"Set Preference","variant":"default","size":"default","disabled":false,"onClick":{"action":"updateContext","structuredContent":{"preference":{"thinking":"{{ thinking }}"}}}}]}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgQnV0dG9uLCBTZWxlY3QsIFNlbGVjdE9wdGlvbiwgQ29sdW1uCmZyb20gcHJlZmFiX3VpLmFjdGlvbnMubWNwIGltcG9ydCBVcGRhdGVDb250ZXh0Cgp3aXRoIENvbHVtbihnYXA9Myk6CiAgICB3aXRoIFNlbGVjdChuYW1lPSJ0aGlua2luZyIsIHBsYWNlaG9sZGVyPSJUaGlua2luZyBsZXZlbC4uLiIpIGFzIHRoaW5raW5nOgogICAgICAgIFNlbGVjdE9wdGlvbih2YWx1ZT0ibG93IiwgbGFiZWw9IkxvdyIpCiAgICAgICAgU2VsZWN0T3B0aW9uKHZhbHVlPSJtZWRpdW0iLCBsYWJlbD0iTWVkaXVtIikKICAgICAgICBTZWxlY3RPcHRpb24odmFsdWU9ImhpZ2giLCBsYWJlbD0iSGlnaCIpCiAgICBCdXR0b24oCiAgICAgICAgIlNldCBQcmVmZXJlbmNlIiwKICAgICAgICBvbl9jbGljaz1VcGRhdGVDb250ZXh0KAogICAgICAgICAgICBzdHJ1Y3R1cmVkX2NvbnRlbnQ9eyJwcmVmZXJlbmNlIjogeyJ0aGlua2luZyI6IHRoaW5raW5nLnJ4fX0sCiAgICAgICAgKSwKICAgICkK">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import Button, Select, SelectOption, Column
+from prefab_ui.actions.mcp import UpdateContext
+
+with Column(gap=3):
+    with Select(name="thinking", placeholder="Thinking level...") as thinking:
+        SelectOption(value="low", label="Low")
+        SelectOption(value="medium", label="Medium")
+        SelectOption(value="high", label="High")
+    Button(
+        "Set Preference",
+        on_click=UpdateContext(
+            structured_content={"preference": {"thinking": thinking.rx}},
+        ),
+    )
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "cssClass": "gap-3",
+    "type": "Column",
+    "children": [
+      {
+        "name": "thinking",
+        "type": "Select",
+        "placeholder": "Thinking level...",
+        "size": "default",
+        "disabled": false,
+        "required": false,
+        "invalid": false,
+        "children": [
+          {
+            "type": "SelectOption",
+            "value": "low",
+            "label": "Low",
+            "selected": false,
+            "disabled": false
+          },
+          {
+            "type": "SelectOption",
+            "value": "medium",
+            "label": "Medium",
+            "selected": false,
+            "disabled": false
+          },
+          {
+            "type": "SelectOption",
+            "value": "high",
+            "label": "High",
+            "selected": false,
+            "disabled": false
+          }
+        ]
+      },
+      {
+        "type": "Button",
+        "label": "Set Preference",
+        "variant": "default",
+        "size": "default",
+        "disabled": false,
+        "onClick": {
+          "action": "updateContext",
+          "structuredContent": {"preference": {"thinking": "{{ thinking }}"}}
+        }
+      }
+    ]
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## API Reference
+
+<Card icon="code" title="UpdateContext Parameters">
+<ParamField body="content" type="str" default="None">
+  Text content to add to the model's context. Can be passed as a positional argument.
+</ParamField>
+
+<ParamField body="structured_content" type="dict[str, Any]" default="None">
+  Structured data to add to the model's context.
+</ParamField>
+</Card>
+
+## Protocol Reference
+
+```json UpdateContext
+{
+  "action": "updateContext",
+  "content?": "string",
+  "structuredContent?": "object"
+}
+```
+
+For the complete protocol schema, see [UpdateContext](/protocol/update-context).

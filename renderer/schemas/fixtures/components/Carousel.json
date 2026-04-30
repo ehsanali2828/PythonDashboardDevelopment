@@ -1,0 +1,19 @@
+{
+  "align": "start",
+  "autoAdvance": 0,
+  "continuous": false,
+  "controlsPosition": "outside",
+  "dimInactive": false,
+  "direction": "left",
+  "drag": true,
+  "effect": "slide",
+  "gap": 16,
+  "loop": true,
+  "pauseOnHover": true,
+  "showControls": true,
+  "showDots": false,
+  "slidesToScroll": 1,
+  "speed": 2,
+  "type": "Carousel",
+  "visible": 1
+}

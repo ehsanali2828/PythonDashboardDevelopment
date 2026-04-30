@@ -1,0 +1,15 @@
+{
+  "animate": true,
+  "barRadius": 4,
+  "data": [],
+  "height": 300,
+  "horizontal": false,
+  "series": [],
+  "showGrid": true,
+  "showLegend": true,
+  "showTooltip": true,
+  "showYAxis": true,
+  "stacked": false,
+  "type": "BarChart",
+  "yAxisFormat": "auto"
+}

@@ -1,0 +1,271 @@
+/**
+ * Layout components: Row, Column, Grid, Div, Span.
+ * These map Python layout primitives to Tailwind flex/grid divs.
+ *
+ * Layout kwargs (gap, columns, align, justify) are compiled to Tailwind
+ * classes on the Python side and arrive via cssClass.
+ */
+
+import { cn } from "@/lib/utils";
+import type { FormEvent, ReactNode } from "react";
+
+interface LayoutProps {
+  className?: string;
+  cssClass?: string;
+  children?: ReactNode;
+}
+
+export function Row({ className, cssClass, children }: LayoutProps) {
+  return (
+    <div className={cn("flex flex-row", className, cssClass)}>{children}</div>
+  );
+}
+
+export function Column({ className, cssClass, children }: LayoutProps) {
+  return (
+    <div className={cn("flex w-full min-w-0 flex-col", className, cssClass)}>
+      {children}
+    </div>
+  );
+}
+
+interface GridProps extends LayoutProps {
+  minColumnWidth?: string;
+  columnTemplate?: string;
+}
+
+export function Grid({
+  className,
+  cssClass,
+  children,
+  minColumnWidth,
+  columnTemplate,
+}: GridProps) {
+  const style = columnTemplate
+    ? { gridTemplateColumns: columnTemplate }
+    : minColumnWidth
+      ? {
+          gridTemplateColumns: `repeat(auto-fit, minmax(${minColumnWidth}, 1fr))`,
+        }
+      : undefined;
+  return (
+    <div className={cn("grid w-full", className, cssClass)} style={style}>
+      {children}
+    </div>
+  );
+}
+
+interface GridItemProps extends LayoutProps {
+  colSpan?: number;
+  rowSpan?: number;
+}
+
+export function GridItem({
+  className,
+  cssClass,
+  children,
+  colSpan = 1,
+  rowSpan = 1,
+}: GridItemProps) {
+  const style: React.CSSProperties = {
+    ...(colSpan !== 1 ? { gridColumnEnd: `span ${colSpan}` } : {}),
+    ...(rowSpan !== 1 ? { gridRowEnd: `span ${rowSpan}` } : {}),
+  };
+  return (
+    <div
+      className={cn("min-w-0 min-h-0", className, cssClass)}
+      style={Object.keys(style).length > 0 ? style : undefined}
+    >
+      {children}
+    </div>
+  );
+}
+
+interface FormProps extends LayoutProps {
+  onSubmit?: (e: FormEvent) => void;
+}
+
+export function PrefabForm({
+  className,
+  cssClass,
+  children,
+  onSubmit,
+}: FormProps) {
+  return (
+    <form
+      className={cn("flex w-full flex-col", className, cssClass)}
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSubmit?.(e);
+      }}
+    >
+      {children}
+    </form>
+  );
+}
+
+export function Container({ className, cssClass, children }: LayoutProps) {
+  return (
+    <div
+      className={cn(
+        "container mx-auto px-4 sm:px-6 lg:px-8",
+        className,
+        cssClass,
+      )}
+    >
+      {children}
+    </div>
+  );
+}
+
+interface DivProps {
+  className?: string;
+  cssClass?: string;
+  style?: React.CSSProperties;
+  children?: ReactNode;
+}
+
+export function Div({ className, cssClass, style, children }: DivProps) {
+  return (
+    <div className={cn(className, cssClass)} style={style}>
+      {children}
+    </div>
+  );
+}
+
+interface SpanProps extends DivProps {
+  content?: string;
+  text?: string;
+  code?: boolean;
+  bold?: boolean;
+  italic?: boolean;
+}
+
+interface LinkProps extends SpanProps {
+  href?: string;
+  target?: string;
+}
+
+interface DashboardProps extends LayoutProps {
+  columns?: number;
+  rowHeight?: number | string;
+  rows?: number;
+}
+
+export function Dashboard({
+  className,
+  cssClass,
+  children,
+  columns = 12,
+  rowHeight = 120,
+  rows,
+}: DashboardProps) {
+  const style: React.CSSProperties = {
+    gridTemplateColumns: `repeat(${columns}, 1fr)`,
+    ...(rows
+      ? { gridTemplateRows: `repeat(${rows}, 1fr)` }
+      : {
+          gridAutoRows:
+            typeof rowHeight === "number" ? `${rowHeight}px` : rowHeight,
+        }),
+  };
+  return (
+    <div className={cn("grid w-full", className, cssClass)} style={style}>
+      {children}
+    </div>
+  );
+}
+
+interface DashboardItemProps extends LayoutProps {
+  col?: number;
+  row?: number;
+  colSpan?: number;
+  rowSpan?: number;
+  zIndex?: number;
+}
+
+export function DashboardItem({
+  className,
+  cssClass,
+  children,
+  col = 1,
+  row = 1,
+  colSpan = 1,
+  rowSpan = 1,
+  zIndex,
+}: DashboardItemProps) {
+  const style: React.CSSProperties = {
+    gridColumn: `${col} / span ${colSpan}`,
+    gridRow: `${row} / span ${rowSpan}`,
+    ...(zIndex != null ? { zIndex } : {}),
+  };
+  return (
+    <div className={cn("min-w-0 min-h-0", className, cssClass)} style={style}>
+      {children}
+    </div>
+  );
+}
+
+export function Span({
+  className,
+  cssClass,
+  style,
+  children,
+  content,
+  text,
+  code,
+  bold,
+  italic,
+}: SpanProps) {
+  const Tag = code ? "code" : "span";
+  return (
+    <Tag
+      className={cn(
+        code &&
+          "pf-code relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm font-medium",
+        bold && "font-bold",
+        italic && "italic",
+        className,
+        cssClass,
+      )}
+      style={style}
+    >
+      {children ?? content ?? text}
+    </Tag>
+  );
+}
+
+export function Link({
+  className,
+  cssClass,
+  style,
+  children,
+  content,
+  text,
+  href,
+  target,
+  code,
+  bold,
+  italic,
+}: LinkProps) {
+  const rel = target === "_blank" ? "noopener noreferrer" : undefined;
+  return (
+    <a
+      href={href}
+      target={target ?? undefined}
+      rel={rel}
+      className={cn(
+        "font-medium text-primary underline underline-offset-4",
+        code &&
+          "pf-code relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm",
+        bold && "font-bold",
+        italic && "italic",
+        className,
+        cssClass,
+      )}
+      style={style}
+    >
+      {children ?? content ?? text}
+    </a>
+  );
+}

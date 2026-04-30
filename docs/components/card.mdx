@@ -1,0 +1,367 @@
+---
+title: Card
+description: Contained surface for grouping related content and actions.
+icon: window-maximize
+---
+
+import { ComponentPreview } from '/snippets/component-preview.mdx'
+
+Cards group related content into a bordered, shadowed container. They're composed from sub-components — `CardHeader`, `CardContent`, and `CardFooter` — that handle spacing and layout so you can focus on content.
+
+## Basic Usage
+
+<ComponentPreview json={{"view":{"type":"Card","children":[{"type":"CardHeader","children":[{"type":"CardTitle","content":"Create project"},{"type":"CardDescription","content":"Deploy your new project in one-click."}]},{"type":"CardContent","children":[{"content":"Your project will be created with default settings.","type":"P"}]},{"type":"CardFooter","children":[{"type":"Button","label":"Cancel","variant":"outline","size":"default","disabled":false},{"type":"Button","label":"Deploy","variant":"default","size":"default","disabled":false}]}]}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgKAogICAgQ2FyZCwKICAgIENhcmRIZWFkZXIsCiAgICBDYXJkVGl0bGUsCiAgICBDYXJkRGVzY3JpcHRpb24sCiAgICBDYXJkQ29udGVudCwKICAgIENhcmRGb290ZXIsCiAgICBCdXR0b24sCiAgICBQLAopCgp3aXRoIENhcmQoKToKICAgIHdpdGggQ2FyZEhlYWRlcigpOgogICAgICAgIENhcmRUaXRsZSgiQ3JlYXRlIHByb2plY3QiKQogICAgICAgIENhcmREZXNjcmlwdGlvbigiRGVwbG95IHlvdXIgbmV3IHByb2plY3QgaW4gb25lLWNsaWNrLiIpCiAgICB3aXRoIENhcmRDb250ZW50KCk6CiAgICAgICAgUCgiWW91ciBwcm9qZWN0IHdpbGwgYmUgY3JlYXRlZCB3aXRoIGRlZmF1bHQgc2V0dGluZ3MuIikKICAgIHdpdGggQ2FyZEZvb3RlcigpOgogICAgICAgIEJ1dHRvbigiQ2FuY2VsIiwgdmFyaWFudD0ib3V0bGluZSIpCiAgICAgICAgQnV0dG9uKCJEZXBsb3kiKQo">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import (
+    Card,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+    CardContent,
+    CardFooter,
+    Button,
+    P,
+)
+
+with Card():
+    with CardHeader():
+        CardTitle("Create project")
+        CardDescription("Deploy your new project in one-click.")
+    with CardContent():
+        P("Your project will be created with default settings.")
+    with CardFooter():
+        Button("Cancel", variant="outline")
+        Button("Deploy")
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "type": "Card",
+    "children": [
+      {
+        "type": "CardHeader",
+        "children": [
+          {"type": "CardTitle", "content": "Create project"},
+          {"type": "CardDescription", "content": "Deploy your new project in one-click."}
+        ]
+      },
+      {
+        "type": "CardContent",
+        "children": [
+          {"content": "Your project will be created with default settings.", "type": "P"}
+        ]
+      },
+      {
+        "type": "CardFooter",
+        "children": [
+          {
+            "type": "Button",
+            "label": "Cancel",
+            "variant": "outline",
+            "size": "default",
+            "disabled": false
+          },
+          {
+            "type": "Button",
+            "label": "Deploy",
+            "variant": "default",
+            "size": "default",
+            "disabled": false
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## Structure
+
+Cards follow a header → content → footer pattern. Each section is optional — use only what you need.
+
+`CardHeader` is a grid that pairs a `CardTitle` with an optional `CardDescription`. `CardContent` provides horizontal padding for your main content. `CardFooter` renders as a flex row, naturally aligning action buttons side by side.
+
+<ComponentPreview json={{"view":{"type":"Card","children":[{"type":"CardHeader","children":[{"type":"CardTitle","content":"Account Settings"},{"type":"CardDescription","content":"Manage your account preferences and security."}]},{"type":"CardContent","children":[{"content":"Update your display name, email, and notification preferences from this panel.","type":"P"},{"content":"Changes take effect immediately.","type":"Muted"}]},{"type":"CardFooter","children":[{"type":"Button","label":"Save changes","variant":"default","size":"default","disabled":false}]}]}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgKAogICAgQ2FyZCwKICAgIENhcmRIZWFkZXIsCiAgICBDYXJkVGl0bGUsCiAgICBDYXJkRGVzY3JpcHRpb24sCiAgICBDYXJkQ29udGVudCwKICAgIENhcmRGb290ZXIsCiAgICBCdXR0b24sCiAgICBQLAogICAgTXV0ZWQsCikKCndpdGggQ2FyZCgpOgogICAgd2l0aCBDYXJkSGVhZGVyKCk6CiAgICAgICAgQ2FyZFRpdGxlKCJBY2NvdW50IFNldHRpbmdzIikKICAgICAgICBDYXJkRGVzY3JpcHRpb24oIk1hbmFnZSB5b3VyIGFjY291bnQgcHJlZmVyZW5jZXMgYW5kIHNlY3VyaXR5LiIpCiAgICB3aXRoIENhcmRDb250ZW50KCk6CiAgICAgICAgUCgiVXBkYXRlIHlvdXIgZGlzcGxheSBuYW1lLCBlbWFpbCwgYW5kIG5vdGlmaWNhdGlvbiBwcmVmZXJlbmNlcyBmcm9tIHRoaXMgcGFuZWwuIikKICAgICAgICBNdXRlZCgiQ2hhbmdlcyB0YWtlIGVmZmVjdCBpbW1lZGlhdGVseS4iKQogICAgd2l0aCBDYXJkRm9vdGVyKCk6CiAgICAgICAgQnV0dG9uKCJTYXZlIGNoYW5nZXMiKQo">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import (
+    Card,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+    CardContent,
+    CardFooter,
+    Button,
+    P,
+    Muted,
+)
+
+with Card():
+    with CardHeader():
+        CardTitle("Account Settings")
+        CardDescription("Manage your account preferences and security.")
+    with CardContent():
+        P("Update your display name, email, and notification preferences from this panel.")
+        Muted("Changes take effect immediately.")
+    with CardFooter():
+        Button("Save changes")
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "type": "Card",
+    "children": [
+      {
+        "type": "CardHeader",
+        "children": [
+          {"type": "CardTitle", "content": "Account Settings"},
+          {
+            "type": "CardDescription",
+            "content": "Manage your account preferences and security."
+          }
+        ]
+      },
+      {
+        "type": "CardContent",
+        "children": [
+          {
+            "content": "Update your display name, email, and notification preferences from this panel.",
+            "type": "P"
+          },
+          {"content": "Changes take effect immediately.", "type": "Muted"}
+        ]
+      },
+      {
+        "type": "CardFooter",
+        "children": [
+          {
+            "type": "Button",
+            "label": "Save changes",
+            "variant": "default",
+            "size": "default",
+            "disabled": false
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## Simple Cards
+
+For lightweight use cases, you can skip the sub-components entirely and use `css_class` to add padding:
+
+<ComponentPreview json={{"view":{"cssClass":"p-6","type":"Card","children":[{"content":"Quick Stats","type":"H3"},{"content":"42 active connections, 3 pending requests.","type":"P"}]}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgKAogICAgQ2FyZCwKICAgIEgzLAogICAgUCwKKQoKd2l0aCBDYXJkKGNzc19jbGFzcz0icC02Iik6CiAgICBIMygiUXVpY2sgU3RhdHMiKQogICAgUCgiNDIgYWN0aXZlIGNvbm5lY3Rpb25zLCAzIHBlbmRpbmcgcmVxdWVzdHMuIikK">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import (
+    Card,
+    H3,
+    P,
+)
+
+with Card(css_class="p-6"):
+    H3("Quick Stats")
+    P("42 active connections, 3 pending requests.")
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "cssClass": "p-6",
+    "type": "Card",
+    "children": [
+      {"content": "Quick Stats", "type": "H3"},
+      {"content": "42 active connections, 3 pending requests.", "type": "P"}
+    ]
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## Card Grid
+
+Cards work naturally with `Grid` for dashboard-style layouts:
+
+<ComponentPreview json={{"view":{"cssClass":"gap-4 grid-cols-3","type":"Grid","children":[{"type":"Card","children":[{"type":"CardHeader","children":[{"type":"CardDescription","content":"Revenue"},{"type":"CardTitle","content":"$12,450"}]}]},{"type":"Card","children":[{"type":"CardHeader","children":[{"type":"CardDescription","content":"Users"},{"type":"CardTitle","content":"1,234"}]}]},{"type":"Card","children":[{"type":"CardHeader","children":[{"type":"CardDescription","content":"Uptime"},{"type":"CardTitle","content":"99.9%"}]}]}]}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgKAogICAgQ2FyZCwKICAgIENhcmRIZWFkZXIsCiAgICBDYXJkVGl0bGUsCiAgICBDYXJkRGVzY3JpcHRpb24sCiAgICBHcmlkLAopCgp3aXRoIEdyaWQoY29sdW1ucz0zLCBnYXA9NCk6CiAgICBmb3IgdGl0bGUsIGRlc2MgaW4gWwogICAgICAgICgiUmV2ZW51ZSIsICIkMTIsNDUwIiksCiAgICAgICAgKCJVc2VycyIsICIxLDIzNCIpLAogICAgICAgICgiVXB0aW1lIiwgIjk5LjklIiksCiAgICBdOgogICAgICAgIHdpdGggQ2FyZCgpOgogICAgICAgICAgICB3aXRoIENhcmRIZWFkZXIoKToKICAgICAgICAgICAgICAgIENhcmREZXNjcmlwdGlvbih0aXRsZSkKICAgICAgICAgICAgICAgIENhcmRUaXRsZShkZXNjKQo">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import (
+    Card,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+    Grid,
+)
+
+with Grid(columns=3, gap=4):
+    for title, desc in [
+        ("Revenue", "$12,450"),
+        ("Users", "1,234"),
+        ("Uptime", "99.9%"),
+    ]:
+        with Card():
+            with CardHeader():
+                CardDescription(title)
+                CardTitle(desc)
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "cssClass": "gap-4 grid-cols-3",
+    "type": "Grid",
+    "children": [
+      {
+        "type": "Card",
+        "children": [
+          {
+            "type": "CardHeader",
+            "children": [
+              {"type": "CardDescription", "content": "Revenue"},
+              {"type": "CardTitle", "content": "$12,450"}
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Card",
+        "children": [
+          {
+            "type": "CardHeader",
+            "children": [
+              {"type": "CardDescription", "content": "Users"},
+              {"type": "CardTitle", "content": "1,234"}
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Card",
+        "children": [
+          {
+            "type": "CardHeader",
+            "children": [
+              {"type": "CardDescription", "content": "Uptime"},
+              {"type": "CardTitle", "content": "99.9%"}
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## API Reference
+
+<Card icon="code" title="Card Parameters">
+<ParamField body="css_class" type="str | None" default="None">
+  Additional Tailwind CSS classes. The card renders as a `div` with border, shadow, and rounded corners.
+</ParamField>
+</Card>
+
+<Card icon="code" title="CardHeader Parameters">
+<ParamField body="css_class" type="str | None" default="None">
+  Additional Tailwind CSS classes. Renders as a grid with automatic spacing for title and description.
+</ParamField>
+</Card>
+
+<Card icon="code" title="CardTitle Parameters">
+<ParamField body="content" type="str | None" default="None">
+  Title text. Can be passed as a positional argument. Alternatively, use child components instead of a string.
+</ParamField>
+
+<ParamField body="css_class" type="str | None" default="None">
+  Additional Tailwind CSS classes.
+</ParamField>
+</Card>
+
+<Card icon="code" title="CardDescription Parameters">
+<ParamField body="content" type="str | None" default="None">
+  Description text. Can be passed as a positional argument. Alternatively, use child components.
+</ParamField>
+
+<ParamField body="css_class" type="str | None" default="None">
+  Additional Tailwind CSS classes.
+</ParamField>
+</Card>
+
+<Card icon="code" title="CardContent Parameters">
+<ParamField body="css_class" type="str | None" default="None">
+  Additional Tailwind CSS classes. Provides horizontal padding (`px-4`) for the main body area.
+</ParamField>
+</Card>
+
+<Card icon="code" title="CardFooter Parameters">
+<ParamField body="css_class" type="str | None" default="None">
+  Additional Tailwind CSS classes. Renders as a flex row for action buttons.
+</ParamField>
+</Card>
+
+## Protocol Reference
+
+```json Card
+{
+  "type": "Card",
+  "children?": "[Component]",
+  "let?": "object",
+  "cssClass?": "string"
+}
+```
+
+```json CardHeader
+{
+  "type": "CardHeader",
+  "children?": "[Component]",
+  "let?": "object",
+  "cssClass?": "string"
+}
+```
+
+```json CardTitle
+{
+  "type": "CardTitle",
+  "children?": "[Component]",
+  "let?": "object",
+  "content?": "string",
+  "cssClass?": "string"
+}
+```
+
+```json CardDescription
+{
+  "type": "CardDescription",
+  "children?": "[Component]",
+  "let?": "object",
+  "content?": "string",
+  "cssClass?": "string"
+}
+```
+
+```json CardContent
+{
+  "type": "CardContent",
+  "children?": "[Component]",
+  "let?": "object",
+  "cssClass?": "string"
+}
+```
+
+```json CardFooter
+{
+  "type": "CardFooter",
+  "children?": "[Component]",
+  "let?": "object",
+  "cssClass?": "string"
+}
+```
+
+For the complete protocol schema, see [Card](/protocol/card), [CardHeader](/protocol/card-header), [CardTitle](/protocol/card-title), [CardDescription](/protocol/card-description), [CardContent](/protocol/card-content), [CardFooter](/protocol/card-footer).

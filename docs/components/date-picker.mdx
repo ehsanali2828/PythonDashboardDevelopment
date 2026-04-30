@@ -1,0 +1,195 @@
+---
+title: DatePicker
+description: Popover button that opens a calendar for date selection.
+icon: calendar-days
+---
+
+import { ComponentPreview } from '/snippets/component-preview.mdx'
+
+DatePicker combines a trigger button with a popover calendar. The button displays the selected date (or placeholder text when empty), and clicking it opens a calendar for selection. It's the most user-friendly way to collect a single date.
+
+## Basic Usage
+
+<ComponentPreview height="400px" json={{"view":{"cssClass":"w-fit mx-auto","name":"datepicker_1","type":"DatePicker","placeholder":"Select deadline"}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgRGF0ZVBpY2tlcgoKRGF0ZVBpY2tlcihwbGFjZWhvbGRlcj0iU2VsZWN0IGRlYWRsaW5lIiwgY3NzX2NsYXNzPSJ3LWZpdCBteC1hdXRvIikK">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import DatePicker
+
+DatePicker(placeholder="Select deadline", css_class="w-fit mx-auto")
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "cssClass": "w-fit mx-auto",
+    "name": "datepicker_1",
+    "type": "DatePicker",
+    "placeholder": "Select deadline"
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## Reading the Value
+
+Use `.rx` to get a reactive reference to the selected date. The value is an ISO date string once a date is picked, but starts as `undefined` when nothing is selected. Use `.then()` to handle both states — showing formatted text when a date exists, and fallback text otherwise:
+
+<ComponentPreview height="400px" json={{"view":{"cssClass":"gap-6 items-center","type":"Row","children":[{"name":"datepicker_2","type":"DatePicker","placeholder":"When does the whale arrive?"},{"cssClass":"gap-2 justify-center","type":"Column","children":[{"type":"Label","text":"Selected date","optional":false},{"cssClass":"italic","content":"{{ datepicker_2 ? (datepicker_2 | date:long) : 'None yet' }}","type":"Text"}]}]}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgQ29sdW1uLCBEYXRlUGlja2VyLCBMYWJlbCwgUm93LCBUZXh0Cgp3aXRoIFJvdyhnYXA9NiwgYWxpZ249ImNlbnRlciIpOgogICAgcGlja2VyID0gRGF0ZVBpY2tlcihwbGFjZWhvbGRlcj0iV2hlbiBkb2VzIHRoZSB3aGFsZSBhcnJpdmU_IikKICAgIHdpdGggQ29sdW1uKGdhcD0yLCBqdXN0aWZ5PSJjZW50ZXIiKToKICAgICAgICBMYWJlbCgiU2VsZWN0ZWQgZGF0ZSIpCiAgICAgICAgVGV4dChwaWNrZXIucngudGhlbihwaWNrZXIucnguZGF0ZSgibG9uZyIpLCAiTm9uZSB5ZXQiKSwgaXRhbGljPVRydWUpCg">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import Column, DatePicker, Label, Row, Text
+
+with Row(gap=6, align="center"):
+    picker = DatePicker(placeholder="When does the whale arrive?")
+    with Column(gap=2, justify="center"):
+        Label("Selected date")
+        Text(picker.rx.then(picker.rx.date("long"), "None yet"), italic=True)
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "cssClass": "gap-6 items-center",
+    "type": "Row",
+    "children": [
+      {
+        "name": "datepicker_2",
+        "type": "DatePicker",
+        "placeholder": "When does the whale arrive?"
+      },
+      {
+        "cssClass": "gap-2 justify-center",
+        "type": "Column",
+        "children": [
+          {"type": "Label", "text": "Selected date", "optional": false},
+          {
+            "cssClass": "italic",
+            "content": "{{ datepicker_2 ? (datepicker_2 | date:long) : 'None yet' }}",
+            "type": "Text"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+Before a date is picked, the text shows "None yet". Pick a date and it updates instantly — the `.date("long")` pipe formats an ISO string like `"2026-04-02"` into `"April 2, 2026"`.
+
+## In a Form
+
+DatePicker works naturally alongside other form controls. Each component's value syncs to state automatically — use `.rx` to reference it elsewhere:
+
+<ComponentPreview json={{"view":{"type":"Card","children":[{"type":"CardHeader","children":[{"type":"CardTitle","content":"New Event"}]},{"type":"CardContent","children":[{"cssClass":"gap-3","type":"Column","children":[{"type":"Label","text":"Event Name","optional":false},{"name":"input_3","type":"Input","inputType":"text","placeholder":"Team standup","disabled":false,"readOnly":false,"required":false},{"type":"Label","text":"Date","optional":false},{"name":"datepicker_3","type":"DatePicker","placeholder":"Pick a date"}]}]},{"type":"CardFooter","children":[{"type":"Button","label":"Create Event","variant":"default","size":"default","disabled":false}]}]}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgKAogICAgQnV0dG9uLAogICAgQ2FyZCwKICAgIENhcmRDb250ZW50LAogICAgQ2FyZEZvb3RlciwKICAgIENhcmRIZWFkZXIsCiAgICBDYXJkVGl0bGUsCiAgICBDb2x1bW4sCiAgICBEYXRlUGlja2VyLAogICAgSW5wdXQsCiAgICBMYWJlbCwKKQoKd2l0aCBDYXJkKCk6CiAgICB3aXRoIENhcmRIZWFkZXIoKToKICAgICAgICBDYXJkVGl0bGUoIk5ldyBFdmVudCIpCiAgICB3aXRoIENhcmRDb250ZW50KCk6CiAgICAgICAgd2l0aCBDb2x1bW4oZ2FwPTMpOgogICAgICAgICAgICBMYWJlbCgiRXZlbnQgTmFtZSIpCiAgICAgICAgICAgIElucHV0KHBsYWNlaG9sZGVyPSJUZWFtIHN0YW5kdXAiKQogICAgICAgICAgICBMYWJlbCgiRGF0ZSIpCiAgICAgICAgICAgIERhdGVQaWNrZXIocGxhY2Vob2xkZXI9IlBpY2sgYSBkYXRlIikKICAgIHdpdGggQ2FyZEZvb3RlcigpOgogICAgICAgIEJ1dHRvbigiQ3JlYXRlIEV2ZW50IikK">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import (
+    Button,
+    Card,
+    CardContent,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+    Column,
+    DatePicker,
+    Input,
+    Label,
+)
+
+with Card():
+    with CardHeader():
+        CardTitle("New Event")
+    with CardContent():
+        with Column(gap=3):
+            Label("Event Name")
+            Input(placeholder="Team standup")
+            Label("Date")
+            DatePicker(placeholder="Pick a date")
+    with CardFooter():
+        Button("Create Event")
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "type": "Card",
+    "children": [
+      {
+        "type": "CardHeader",
+        "children": [{"type": "CardTitle", "content": "New Event"}]
+      },
+      {
+        "type": "CardContent",
+        "children": [
+          {
+            "cssClass": "gap-3",
+            "type": "Column",
+            "children": [
+              {"type": "Label", "text": "Event Name", "optional": false},
+              {
+                "name": "input_3",
+                "type": "Input",
+                "inputType": "text",
+                "placeholder": "Team standup",
+                "disabled": false,
+                "readOnly": false,
+                "required": false
+              },
+              {"type": "Label", "text": "Date", "optional": false},
+              {"name": "datepicker_3", "type": "DatePicker", "placeholder": "Pick a date"}
+            ]
+          }
+        ]
+      },
+      {
+        "type": "CardFooter",
+        "children": [
+          {
+            "type": "Button",
+            "label": "Create Event",
+            "variant": "default",
+            "size": "default",
+            "disabled": false
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## API Reference
+
+<Card icon="code" title="DatePicker Parameters">
+<ParamField body="placeholder" type="str" default="Pick a date">
+  Button text when no date is selected.
+</ParamField>
+
+<ParamField body="name" type="str | None" default="None">
+  State key for the selected date (stored as an ISO string).
+</ParamField>
+
+<ParamField body="on_change" type="Action | list[Action] | None" default="None">
+  Action(s) triggered when the date changes.
+</ParamField>
+
+<ParamField body="css_class" type="str | None" default="None">
+  Additional Tailwind CSS classes.
+</ParamField>
+</Card>
+
+## Protocol Reference
+
+```json DatePicker
+{
+  "type": "DatePicker",
+  "name?": "string",
+  "placeholder?": "string",
+  "onChange?": "Action | Action[]",
+  "cssClass?": "string"
+}
+```
+
+For the complete protocol schema, see [DatePicker](/protocol/date-picker).

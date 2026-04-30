@@ -1,0 +1,13 @@
+{
+  "animate": true,
+  "data": [],
+  "dataKey": "test_data_key",
+  "endAngle": 0,
+  "height": 300,
+  "innerRadius": 30,
+  "nameKey": "test_name_key",
+  "showLegend": true,
+  "showTooltip": true,
+  "startAngle": 180,
+  "type": "RadialChart"
+}

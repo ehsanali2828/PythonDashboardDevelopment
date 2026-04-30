@@ -1,0 +1,85 @@
+---
+title: DataTable
+description: JSON Schema for the DataTable component.
+---
+
+High-level data table with sorting, filtering, and pagination.
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "type": {
+      "const": "DataTable",
+      "default": "DataTable",
+      "type": "string"
+    },
+    "id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "HTML id attribute for CSS targeting. Applied to the outermost element."
+    },
+    "cssClass": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "CSS/Tailwind classes for styling. Accepts a Responsive() for breakpoint-aware classes."
+    },
+    "onMount": {
+      "default": null,
+      "description": "Action(s) to execute when this component mounts."
+    },
+    "columns": {
+      "description": "Column definitions",
+      "items": {
+        "$ref": "DataTableColumn"
+      },
+      "type": "array"
+    },
+    "rows": {
+      "anyOf": [
+        {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "type": "array"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "description": "Row data, `{{ interpolation }}` reference, or DataFrame"
+    },
+    "search": {
+      "default": false,
+      "description": "Show search input",
+      "type": "boolean"
+    },
+    "paginated": {
+      "default": false,
+      "description": "Show pagination controls",
+      "type": "boolean"
+    },
+    "pageSize": {
+      "default": 10,
+      "description": "Rows per page when paginated",
+      "type": "integer"
+    },
+    "onRowClick": {
+      "$ref": "Action",
+      "description": "Action(s) when a row is clicked. $event is the row data dict.",
+      "default": null
+    }
+  },
+  "required": [
+    "type",
+    "columns"
+  ]
+}
+```

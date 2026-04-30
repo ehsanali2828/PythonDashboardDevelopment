@@ -1,0 +1,213 @@
+---
+title: Textarea
+description: Multi-line text input for longer content.
+icon: align-left
+---
+
+import { ComponentPreview } from "/snippets/component-preview.mdx";
+
+Textareas provide multi-line text input for comments, descriptions, and other longer content.
+
+## Basic Usage
+
+<ComponentPreview json={{"view":{"name":"textarea_1","type":"Textarea","placeholder":"Enter your message...","disabled":false,"required":false}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgVGV4dGFyZWEKClRleHRhcmVhKHBsYWNlaG9sZGVyPSJFbnRlciB5b3VyIG1lc3NhZ2UuLi4iKQo">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import Textarea
+
+Textarea(placeholder="Enter your message...")
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "name": "textarea_1",
+    "type": "Textarea",
+    "placeholder": "Enter your message...",
+    "disabled": false,
+    "required": false
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## With Labels
+
+<ComponentPreview json={{"view":{"cssClass":"gap-2","type":"Column","children":[{"type":"Label","text":"Feedback","optional":false},{"name":"textarea_2","type":"Textarea","placeholder":"Tell us what you think...","rows":5,"disabled":false,"required":false}]}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgKAogICAgQ29sdW1uLAogICAgTGFiZWwsCiAgICBUZXh0YXJlYSwKKQoKd2l0aCBDb2x1bW4oZ2FwPTIpOgogICAgTGFiZWwoIkZlZWRiYWNrIikKICAgIFRleHRhcmVhKAogICAgICAgIHBsYWNlaG9sZGVyPSJUZWxsIHVzIHdoYXQgeW91IHRoaW5rLi4uIiwKICAgICAgICByb3dzPTUsCiAgICApCg">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import (
+    Column,
+    Label,
+    Textarea,
+)
+
+with Column(gap=2):
+    Label("Feedback")
+    Textarea(
+        placeholder="Tell us what you think...",
+        rows=5,
+    )
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "cssClass": "gap-2",
+    "type": "Column",
+    "children": [
+      {"type": "Label", "text": "Feedback", "optional": false},
+      {
+        "name": "textarea_2",
+        "type": "Textarea",
+        "placeholder": "Tell us what you think...",
+        "rows": 5,
+        "disabled": false,
+        "required": false
+      }
+    ]
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## With Initial Value
+
+<ComponentPreview json={{"view":{"name":"textarea_3","value":"This is some initial content that can be edited.","type":"Textarea","rows":4,"disabled":false,"required":false},"state":{"textarea_3":"This is some initial content that can be edited."}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgVGV4dGFyZWEKClRleHRhcmVhKAogICAgdmFsdWU9IlRoaXMgaXMgc29tZSBpbml0aWFsIGNvbnRlbnQgdGhhdCBjYW4gYmUgZWRpdGVkLiIsCiAgICByb3dzPTQsCikK">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import Textarea
+
+Textarea(
+    value="This is some initial content that can be edited.",
+    rows=4,
+)
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "name": "textarea_3",
+    "value": "This is some initial content that can be edited.",
+    "type": "Textarea",
+    "rows": 4,
+    "disabled": false,
+    "required": false
+  },
+  "state": {"textarea_3": "This is some initial content that can be edited."}
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## Disabled State
+
+<ComponentPreview json={{"view":{"name":"textarea_4","type":"Textarea","placeholder":"This textarea is disabled","disabled":true,"required":false}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgVGV4dGFyZWEKClRleHRhcmVhKHBsYWNlaG9sZGVyPSJUaGlzIHRleHRhcmVhIGlzIGRpc2FibGVkIiwgZGlzYWJsZWQ9VHJ1ZSkK">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import Textarea
+
+Textarea(placeholder="This textarea is disabled", disabled=True)
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "name": "textarea_4",
+    "type": "Textarea",
+    "placeholder": "This textarea is disabled",
+    "disabled": true,
+    "required": false
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## Reading the Value
+
+Use `.rx` to get a reactive reference to the textarea's current text. The `.length()` pipe returns the character count, which is useful for showing a live counter:
+
+<ComponentPreview json={{"view":{"cssClass":"gap-4","type":"Column","children":[{"name":"textarea_5","type":"Textarea","placeholder":"Describe your journey through the galaxy...","rows":4,"disabled":false,"required":false},{"content":"Character count: {{ textarea_5 | length }}","type":"Text"}]}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgQ29sdW1uLCBUZXh0LCBUZXh0YXJlYQoKd2l0aCBDb2x1bW4oZ2FwPTQpOgogICAgdGEgPSBUZXh0YXJlYShwbGFjZWhvbGRlcj0iRGVzY3JpYmUgeW91ciBqb3VybmV5IHRocm91Z2ggdGhlIGdhbGF4eS4uLiIsIHJvd3M9NCkKICAgIFRleHQoZiJDaGFyYWN0ZXIgY291bnQ6IHt0YS5yeC5sZW5ndGgoKX0iKQo">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import Column, Text, Textarea
+
+with Column(gap=4):
+    ta = Textarea(placeholder="Describe your journey through the galaxy...", rows=4)
+    Text(f"Character count: {ta.rx.length()}")
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "cssClass": "gap-4",
+    "type": "Column",
+    "children": [
+      {
+        "name": "textarea_5",
+        "type": "Textarea",
+        "placeholder": "Describe your journey through the galaxy...",
+        "rows": 4,
+        "disabled": false,
+        "required": false
+      },
+      {"content": "Character count: {{ textarea_5 | length }}", "type": "Text"}
+    ]
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+Type into the textarea and the character count updates with each keystroke.
+
+## API Reference
+
+<Card icon="code" title="Textarea Parameters">
+
+<ParamField body="placeholder" type="str | None" default="None">
+  Placeholder text shown when the textarea is empty.
+</ParamField>
+
+<ParamField body="value" type="str | None" default="None">
+  Initial value.
+</ParamField>
+
+<ParamField body="name" type="str | None" default="None">
+  State key for the textarea's current value. Auto-generated if not provided. Use `.rx` to reference the textarea's content in other components without specifying the key explicitly.
+</ParamField>
+
+<ParamField body="rows" type="int | None" default="None">
+  Number of visible text rows.
+</ParamField>
+
+<ParamField body="disabled" type="bool" default="False">
+  Whether the textarea is non-interactive.
+</ParamField>
+
+<ParamField body="required" type="bool" default="False">
+  Whether the textarea is required for form submission.
+</ParamField>
+
+<ParamField body="css_class" type="str | None" default="None">
+  Additional Tailwind CSS classes appended to the component's built-in styles.
+</ParamField>
+</Card>
+
+## Protocol Reference
+
+```json Textarea
+{
+  "type": "Textarea",
+  "name?": "string",
+  "placeholder?": "string",
+  "value?": "string",
+  "rows?": "number",
+  "disabled?": false,
+  "required?": false,
+  "minLength?": "number",
+  "maxLength?": "number",
+  "onChange?": "Action | Action[]",
+  "cssClass?": "string"
+}
+```
+
+For the complete protocol schema, see [Textarea](/protocol/textarea).

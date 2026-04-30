@@ -1,0 +1,14 @@
+{
+  "animate": true,
+  "curve": "linear",
+  "data": [],
+  "height": 300,
+  "series": [],
+  "showDots": false,
+  "showGrid": true,
+  "showLegend": true,
+  "showTooltip": true,
+  "showYAxis": true,
+  "type": "LineChart",
+  "yAxisFormat": "auto"
+}

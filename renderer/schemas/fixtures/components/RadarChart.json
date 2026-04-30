@@ -1,0 +1,12 @@
+{
+  "animate": true,
+  "data": [],
+  "filled": true,
+  "height": 300,
+  "series": [],
+  "showDots": false,
+  "showGrid": true,
+  "showLegend": true,
+  "showTooltip": true,
+  "type": "RadarChart"
+}

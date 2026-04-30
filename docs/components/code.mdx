@@ -1,0 +1,117 @@
+---
+title: Code
+description: Display code blocks with optional language annotation.
+icon: code
+---
+
+import { ComponentPreview } from '/snippets/component-preview.mdx'
+
+Code blocks display source code or configuration with automatic syntax highlighting. Set the `language` parameter to enable language-aware highlighting for Python, JavaScript, TypeScript, SQL, Bash, JSON, HTML, CSS, YAML, and Markdown.
+
+## Basic Usage
+
+<ComponentPreview json={{"view":{"type":"Code","content":"def answer() -> int:\n    \"\"\"Return the Answer to the Ultimate Question\n    of Life, the Universe, and Everything.\"\"\"\n    return 42","language":"python"}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgQ29kZQoKQ29kZSgiIiIKZGVmIGFuc3dlcigpIC0-IGludDoKICAgIFwiXCJcIlJldHVybiB0aGUgQW5zd2VyIHRvIHRoZSBVbHRpbWF0ZSBRdWVzdGlvbgogICAgb2YgTGlmZSwgdGhlIFVuaXZlcnNlLCBhbmQgRXZlcnl0aGluZy5cIlwiXCIKICAgIHJldHVybiA0MgoiIiIuc3RyaXAoKSwgbGFuZ3VhZ2U9InB5dGhvbiIpCg">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import Code
+
+Code("""
+def answer() -> int:
+    \"\"\"Return the Answer to the Ultimate Question
+    of Life, the Universe, and Everything.\"\"\"
+    return 42
+""".strip(), language="python")
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "type": "Code",
+    "content": "def answer() -> int:\n    \"\"\"Return the Answer to the Ultimate Question\n    of Life, the Universe, and Everything.\"\"\"\n    return 42",
+    "language": "python"
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## Multiple Languages
+
+<ComponentPreview json={{"view":{"cssClass":"gap-3","type":"Column","children":[{"type":"Code","content":"pip install prefab-ui","language":"bash"},{"type":"Code","content":"SELECT name, designation\nFROM crew\nWHERE ship = 'Heart of Gold';","language":"sql"},{"type":"Code","content":"{ \"ship\": \"Heart of Gold\", \"drive\": \"Infinite Improbability\" }","language":"json"}]}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgQ29kZSwgQ29sdW1uCgp3aXRoIENvbHVtbihnYXA9Myk6CiAgICBDb2RlKCJwaXAgaW5zdGFsbCBwcmVmYWItdWkiLCBsYW5ndWFnZT0iYmFzaCIpCiAgICBDb2RlKAogICAgICAgICJTRUxFQ1QgbmFtZSwgZGVzaWduYXRpb25cbiIKICAgICAgICAiRlJPTSBjcmV3XG4iCiAgICAgICAgIldIRVJFIHNoaXAgPSAnSGVhcnQgb2YgR29sZCc7IiwKICAgICAgICBsYW5ndWFnZT0ic3FsIiwKICAgICkKICAgIENvZGUoJ3sgInNoaXAiOiAiSGVhcnQgb2YgR29sZCIsICJkcml2ZSI6ICJJbmZpbml0ZSBJbXByb2JhYmlsaXR5IiB9JywgbGFuZ3VhZ2U9Impzb24iKQo">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import Code, Column
+
+with Column(gap=3):
+    Code("pip install prefab-ui", language="bash")
+    Code(
+        "SELECT name, designation\n"
+        "FROM crew\n"
+        "WHERE ship = 'Heart of Gold';",
+        language="sql",
+    )
+    Code('{ "ship": "Heart of Gold", "drive": "Infinite Improbability" }', language="json")
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "cssClass": "gap-3",
+    "type": "Column",
+    "children": [
+      {"type": "Code", "content": "pip install prefab-ui", "language": "bash"},
+      {
+        "type": "Code",
+        "content": "SELECT name, designation\nFROM crew\nWHERE ship = 'Heart of Gold';",
+        "language": "sql"
+      },
+      {
+        "type": "Code",
+        "content": "{ \"ship\": \"Heart of Gold\", \"drive\": \"Infinite Improbability\" }",
+        "language": "json"
+      }
+    ]
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## Dynamic Content
+
+Code content supports [expression interpolation](/expressions/overview), so you can display server-generated output:
+
+```python
+from prefab_ui.components import Code
+from prefab_ui.rx import Rx
+
+query_result = Rx("query_result")
+Code(query_result, language="sql")
+```
+
+## API Reference
+
+<Card icon="code" title="Code Parameters">
+<ParamField body="content" type="str" required>
+  Code content. Can be passed as a positional argument.
+</ParamField>
+
+<ParamField body="language" type="str | None" default="None">
+  Language for syntax highlighting. Supported: `python`, `javascript`/`js`, `typescript`/`ts`, `json`, `bash`/`sh`, `sql`, `html`, `xml`, `css`, `yaml`/`yml`, `markdown`/`md`.
+</ParamField>
+
+<ParamField body="css_class" type="str | None" default="None">
+  Additional Tailwind CSS classes.
+</ParamField>
+</Card>
+
+## Protocol Reference
+
+```json Code
+{
+  "type": "Code",
+  "content": "string (required)",
+  "language?": "string",
+  "cssClass?": "string"
+}
+```
+
+For the complete protocol schema, see [Code](/protocol/code).

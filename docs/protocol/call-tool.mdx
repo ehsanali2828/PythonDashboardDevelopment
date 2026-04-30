@@ -1,0 +1,36 @@
+---
+title: CallTool
+description: JSON Schema for the CallTool action.
+---
+
+Call an MCP server tool via `app.callServerTool()`.
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "action": {
+      "const": "toolCall",
+      "default": "toolCall",
+      "type": "string"
+    },
+    "tool": {
+      "description": "Name of the server tool to call",
+      "type": "string"
+    },
+    "arguments": {
+      "additionalProperties": true,
+      "description": "Arguments to pass. Supports {{ key }} interpolation.",
+      "type": "object"
+    },
+    "unwrapResult": {
+      "description": "When true, extract $result from a {\"result\": X} envelope in structuredContent.",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "action",
+    "tool"
+  ]
+}
+```

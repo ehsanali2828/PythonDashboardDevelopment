@@ -1,0 +1,65 @@
+---
+title: CardDescription
+description: JSON Schema for the CardDescription component.
+---
+
+Card description text, typically below the title.
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "type": {
+      "const": "CardDescription",
+      "default": "CardDescription",
+      "type": "string"
+    },
+    "id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "HTML id attribute for CSS targeting. Applied to the outermost element."
+    },
+    "cssClass": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "CSS/Tailwind classes for styling. Accepts a Responsive() for breakpoint-aware classes."
+    },
+    "onMount": {
+      "default": null,
+      "description": "Action(s) to execute when this component mounts."
+    },
+    "children": {
+      "type": "array",
+      "items": {
+        "$ref": "Component"
+      }
+    },
+    "let": {
+      "additionalProperties": true,
+      "type": [
+        "object",
+        "null"
+      ],
+      "default": null,
+      "description": "Scoped bindings available to children. Values are template strings."
+    },
+    "content": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "Description text (alternative to children)"
+    }
+  },
+  "required": [
+    "type"
+  ]
+}
+```

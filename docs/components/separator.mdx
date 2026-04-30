@@ -1,0 +1,148 @@
+---
+title: Separator
+description: Visual divider between content sections.
+icon: grip-lines
+---
+
+import { ComponentPreview } from "/snippets/component-preview.mdx";
+
+Separators create visual divisions between content areas.
+
+## Basic Usage
+
+<ComponentPreview json={{"view":{"type":"Column","children":[{"content":"Content above the separator","type":"P"},{"cssClass":"my-4","type":"Separator","orientation":"horizontal"},{"content":"Content below the separator","type":"P"}]}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgKAogICAgQ29sdW1uLAogICAgUCwKICAgIFNlcGFyYXRvciwKKQoKd2l0aCBDb2x1bW4oKToKICAgIFAoIkNvbnRlbnQgYWJvdmUgdGhlIHNlcGFyYXRvciIpCiAgICBTZXBhcmF0b3Ioc3BhY2luZz00KQogICAgUCgiQ29udGVudCBiZWxvdyB0aGUgc2VwYXJhdG9yIikK">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import (
+    Column,
+    P,
+    Separator,
+)
+
+with Column():
+    P("Content above the separator")
+    Separator(spacing=4)
+    P("Content below the separator")
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "type": "Column",
+    "children": [
+      {"content": "Content above the separator", "type": "P"},
+      {"cssClass": "my-4", "type": "Separator", "orientation": "horizontal"},
+      {"content": "Content below the separator", "type": "P"}
+    ]
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## Vertical Orientation
+
+<ComponentPreview json={{"view":{"cssClass":"gap-4 items-center","type":"Row","children":[{"content":"Left","code":false,"type":"Span"},{"cssClass":"h-4","type":"Separator","orientation":"vertical"},{"content":"Middle","code":false,"type":"Span"},{"cssClass":"h-4","type":"Separator","orientation":"vertical"},{"content":"Right","code":false,"type":"Span"}]}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgKAogICAgUm93LAogICAgU2VwYXJhdG9yLAogICAgU3BhbiwKKQoKd2l0aCBSb3coZ2FwPTQsIGNzc19jbGFzcz0iaXRlbXMtY2VudGVyIik6CiAgICBTcGFuKCJMZWZ0IikKICAgIFNlcGFyYXRvcihvcmllbnRhdGlvbj0idmVydGljYWwiLCBjc3NfY2xhc3M9ImgtNCIpCiAgICBTcGFuKCJNaWRkbGUiKQogICAgU2VwYXJhdG9yKG9yaWVudGF0aW9uPSJ2ZXJ0aWNhbCIsIGNzc19jbGFzcz0iaC00IikKICAgIFNwYW4oIlJpZ2h0IikK">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import (
+    Row,
+    Separator,
+    Span,
+)
+
+with Row(gap=4, css_class="items-center"):
+    Span("Left")
+    Separator(orientation="vertical", css_class="h-4")
+    Span("Middle")
+    Separator(orientation="vertical", css_class="h-4")
+    Span("Right")
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "cssClass": "gap-4 items-center",
+    "type": "Row",
+    "children": [
+      {"content": "Left", "code": false, "type": "Span"},
+      {"cssClass": "h-4", "type": "Separator", "orientation": "vertical"},
+      {"content": "Middle", "code": false, "type": "Span"},
+      {"cssClass": "h-4", "type": "Separator", "orientation": "vertical"},
+      {"content": "Right", "code": false, "type": "Span"}
+    ]
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## In Card Content
+
+<ComponentPreview json={{"view":{"type":"Card","children":[{"type":"CardContent","children":[{"content":"First section","type":"P"},{"cssClass":"my-4","type":"Separator","orientation":"horizontal"},{"content":"Second section","type":"P"},{"cssClass":"my-4","type":"Separator","orientation":"horizontal"},{"content":"Third section","type":"P"}]}]}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgKAogICAgQ2FyZCwKICAgIENhcmRDb250ZW50LAogICAgUCwKICAgIFNlcGFyYXRvciwKKQoKd2l0aCBDYXJkKCk6CiAgICB3aXRoIENhcmRDb250ZW50KCk6CiAgICAgICAgUCgiRmlyc3Qgc2VjdGlvbiIpCiAgICAgICAgU2VwYXJhdG9yKHNwYWNpbmc9NCkKICAgICAgICBQKCJTZWNvbmQgc2VjdGlvbiIpCiAgICAgICAgU2VwYXJhdG9yKHNwYWNpbmc9NCkKICAgICAgICBQKCJUaGlyZCBzZWN0aW9uIikK">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import (
+    Card,
+    CardContent,
+    P,
+    Separator,
+)
+
+with Card():
+    with CardContent():
+        P("First section")
+        Separator(spacing=4)
+        P("Second section")
+        Separator(spacing=4)
+        P("Third section")
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "type": "Card",
+    "children": [
+      {
+        "type": "CardContent",
+        "children": [
+          {"content": "First section", "type": "P"},
+          {"cssClass": "my-4", "type": "Separator", "orientation": "horizontal"},
+          {"content": "Second section", "type": "P"},
+          {"cssClass": "my-4", "type": "Separator", "orientation": "horizontal"},
+          {"content": "Third section", "type": "P"}
+        ]
+      }
+    ]
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## API Reference
+
+<Card icon="code" title="Separator Parameters">
+
+<ParamField body="orientation" type="str" default="horizontal">
+  Separator direction: `"horizontal"`, `"vertical"`.
+</ParamField>
+
+<ParamField body="spacing" type="int | None" default="None">
+  Space around the separator using the Tailwind spacing scale. Adds vertical margin (`my-N`) for horizontal separators and horizontal margin (`mx-N`) for vertical separators.
+</ParamField>
+
+<ParamField body="css_class" type="str | None" default="None">
+  Additional Tailwind CSS classes. Useful for controlling height/width.
+</ParamField>
+</Card>
+
+## Protocol Reference
+
+```json Separator
+{
+  "type": "Separator",
+  "orientation?": "horizontal | vertical",
+  "spacing?": "number",
+  "cssClass?": "string"
+}
+```
+
+For the complete protocol schema, see [Separator](/protocol/separator).

@@ -1,0 +1,329 @@
+---
+title: Switch
+description: Toggle switch for on/off states.
+icon: toggle-on
+---
+
+import { ComponentPreview } from "/snippets/component-preview.mdx";
+
+Switches provide a visual toggle for binary states, offering an alternative to checkboxes.
+
+## Basic Usage
+
+<ComponentPreview json={{"view":{"name":"switch_7","value":false,"type":"Switch","label":"Enable notifications","size":"default","disabled":false,"required":false},"state":{"switch_7":false}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgU3dpdGNoCgpTd2l0Y2gobGFiZWw9IkVuYWJsZSBub3RpZmljYXRpb25zIikK">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import Switch
+
+Switch(label="Enable notifications")
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "name": "switch_7",
+    "value": false,
+    "type": "Switch",
+    "label": "Enable notifications",
+    "size": "default",
+    "disabled": false,
+    "required": false
+  },
+  "state": {"switch_7": false}
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## Checked State
+
+<ComponentPreview json={{"view":{"name":"switch_8","value":true,"type":"Switch","label":"Dark mode","size":"default","disabled":false,"required":false},"state":{"switch_8":true}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgU3dpdGNoCgpTd2l0Y2gobGFiZWw9IkRhcmsgbW9kZSIsIHZhbHVlPVRydWUpCg">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import Switch
+
+Switch(label="Dark mode", value=True)
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "name": "switch_8",
+    "value": true,
+    "type": "Switch",
+    "label": "Dark mode",
+    "size": "default",
+    "disabled": false,
+    "required": false
+  },
+  "state": {"switch_8": true}
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## Sizes
+
+Switches come in two sizes:
+
+<ComponentPreview json={{"view":{"cssClass":"gap-4 w-fit mx-auto","type":"Column","children":[{"name":"switch_9","value":true,"type":"Switch","label":"Default size","size":"default","disabled":false,"required":false},{"name":"switch_10","value":true,"type":"Switch","label":"Small size","size":"sm","disabled":false,"required":false}]},"state":{"switch_9":true,"switch_10":true}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgKAogICAgQ29sdW1uLAogICAgU3dpdGNoLAopCgp3aXRoIENvbHVtbihnYXA9NCwgY3NzX2NsYXNzPSJ3LWZpdCBteC1hdXRvIik6CiAgICBTd2l0Y2gobGFiZWw9IkRlZmF1bHQgc2l6ZSIsIHZhbHVlPVRydWUpCiAgICBTd2l0Y2gobGFiZWw9IlNtYWxsIHNpemUiLCBzaXplPSJzbSIsIHZhbHVlPVRydWUpCg">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import (
+    Column,
+    Switch,
+)
+
+with Column(gap=4, css_class="w-fit mx-auto"):
+    Switch(label="Default size", value=True)
+    Switch(label="Small size", size="sm", value=True)
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "cssClass": "gap-4 w-fit mx-auto",
+    "type": "Column",
+    "children": [
+      {
+        "name": "switch_9",
+        "value": true,
+        "type": "Switch",
+        "label": "Default size",
+        "size": "default",
+        "disabled": false,
+        "required": false
+      },
+      {
+        "name": "switch_10",
+        "value": true,
+        "type": "Switch",
+        "label": "Small size",
+        "size": "sm",
+        "disabled": false,
+        "required": false
+      }
+    ]
+  },
+  "state": {"switch_9": true, "switch_10": true}
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## With Actions
+
+The `on_change` parameter runs actions when the switch is toggled. The `$event` variable is `true` when switched on, `false` when off. Here, toggling the switch updates a separate status message:
+
+<ComponentPreview json={{"view":{"cssClass":"gap-4 w-fit mx-auto","type":"Column","children":[{"name":"notifications","value":false,"type":"Switch","label":"Enable notifications","size":"default","disabled":false,"required":false,"onChange":{"action":"setState","key":"status","value":"{{ $event ? 'Notifications enabled' : 'Notifications disabled' }}"}},{"cssClass":"text-muted-foreground","content":"{{ status | default:'Toggle the switch' }}","type":"Text"}]},"state":{"notifications":false}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgQ29sdW1uLCBTd2l0Y2gsIFRleHQKZnJvbSBwcmVmYWJfdWkuYWN0aW9ucyBpbXBvcnQgU2V0U3RhdGUKZnJvbSBwcmVmYWJfdWkucnggaW1wb3J0IEVWRU5ULCBSeAoKc3RhdHVzID0gUngoInN0YXR1cyIpCgp3aXRoIENvbHVtbihnYXA9NCwgY3NzX2NsYXNzPSJ3LWZpdCBteC1hdXRvIik6CiAgICBTd2l0Y2goCiAgICAgICAgbGFiZWw9IkVuYWJsZSBub3RpZmljYXRpb25zIiwKICAgICAgICBuYW1lPSJub3RpZmljYXRpb25zIiwKICAgICAgICBvbl9jaGFuZ2U9U2V0U3RhdGUoCiAgICAgICAgICAgICJzdGF0dXMiLAogICAgICAgICAgICBFVkVOVC50aGVuKCJOb3RpZmljYXRpb25zIGVuYWJsZWQiLCAiTm90aWZpY2F0aW9ucyBkaXNhYmxlZCIpLAogICAgICAgICksCiAgICApCiAgICBUZXh0KAogICAgICAgIHN0YXR1cy5kZWZhdWx0KCJUb2dnbGUgdGhlIHN3aXRjaCIpLAogICAgICAgIGNzc19jbGFzcz0idGV4dC1tdXRlZC1mb3JlZ3JvdW5kIiwKICAgICkK">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import Column, Switch, Text
+from prefab_ui.actions import SetState
+from prefab_ui.rx import EVENT, Rx
+
+status = Rx("status")
+
+with Column(gap=4, css_class="w-fit mx-auto"):
+    Switch(
+        label="Enable notifications",
+        name="notifications",
+        on_change=SetState(
+            "status",
+            EVENT.then("Notifications enabled", "Notifications disabled"),
+        ),
+    )
+    Text(
+        status.default("Toggle the switch"),
+        css_class="text-muted-foreground",
+    )
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "cssClass": "gap-4 w-fit mx-auto",
+    "type": "Column",
+    "children": [
+      {
+        "name": "notifications",
+        "value": false,
+        "type": "Switch",
+        "label": "Enable notifications",
+        "size": "default",
+        "disabled": false,
+        "required": false,
+        "onChange": {
+          "action": "setState",
+          "key": "status",
+          "value": "{{ $event ? 'Notifications enabled' : 'Notifications disabled' }}"
+        }
+      },
+      {
+        "cssClass": "text-muted-foreground",
+        "content": "{{ status | default:'Toggle the switch' }}",
+        "type": "Text"
+      }
+    ]
+  },
+  "state": {"notifications": false}
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## Disabled State
+
+<ComponentPreview json={{"view":{"cssClass":"gap-3 w-fit mx-auto","type":"Column","children":[{"name":"switch_11","value":false,"type":"Switch","label":"Enabled switch","size":"default","disabled":false,"required":false},{"name":"switch_12","value":false,"type":"Switch","label":"Disabled off","size":"default","disabled":true,"required":false},{"name":"switch_13","value":true,"type":"Switch","label":"Disabled on","size":"default","disabled":true,"required":false}]},"state":{"switch_11":false,"switch_12":false,"switch_13":true}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgKAogICAgQ29sdW1uLAogICAgU3dpdGNoLAopCgp3aXRoIENvbHVtbihnYXA9MywgY3NzX2NsYXNzPSJ3LWZpdCBteC1hdXRvIik6CiAgICBTd2l0Y2gobGFiZWw9IkVuYWJsZWQgc3dpdGNoIikKICAgIFN3aXRjaChsYWJlbD0iRGlzYWJsZWQgb2ZmIiwgZGlzYWJsZWQ9VHJ1ZSkKICAgIFN3aXRjaChsYWJlbD0iRGlzYWJsZWQgb24iLCB2YWx1ZT1UcnVlLCBkaXNhYmxlZD1UcnVlKQo">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import (
+    Column,
+    Switch,
+)
+
+with Column(gap=3, css_class="w-fit mx-auto"):
+    Switch(label="Enabled switch")
+    Switch(label="Disabled off", disabled=True)
+    Switch(label="Disabled on", value=True, disabled=True)
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "cssClass": "gap-3 w-fit mx-auto",
+    "type": "Column",
+    "children": [
+      {
+        "name": "switch_11",
+        "value": false,
+        "type": "Switch",
+        "label": "Enabled switch",
+        "size": "default",
+        "disabled": false,
+        "required": false
+      },
+      {
+        "name": "switch_12",
+        "value": false,
+        "type": "Switch",
+        "label": "Disabled off",
+        "size": "default",
+        "disabled": true,
+        "required": false
+      },
+      {
+        "name": "switch_13",
+        "value": true,
+        "type": "Switch",
+        "label": "Disabled on",
+        "size": "default",
+        "disabled": true,
+        "required": false
+      }
+    ]
+  },
+  "state": {"switch_11": false, "switch_12": false, "switch_13": true}
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+## Reading the Value
+
+Use `.rx` to get a reactive reference to the switch's boolean state. The `.then()` pipe converts `true`/`false` into display-friendly strings:
+
+<ComponentPreview json={{"view":{"cssClass":"gap-4 items-center","type":"Row","children":[{"name":"switch_14","value":true,"type":"Switch","label":"Auto-save to the Guide","size":"default","disabled":false,"required":false},{"type":"Label","text":"Auto-save:","optional":false},{"name":"input_17","value":"{{ switch_14 ? 'On' : 'Off' }}","type":"Input","inputType":"text","disabled":false,"readOnly":true,"required":false}]},"state":{"switch_14":true}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgSW5wdXQsIExhYmVsLCBSb3csIFN3aXRjaAoKd2l0aCBSb3coZ2FwPTQsIGFsaWduPSJjZW50ZXIiKToKICAgIHN3ID0gU3dpdGNoKGxhYmVsPSJBdXRvLXNhdmUgdG8gdGhlIEd1aWRlIiwgdmFsdWU9VHJ1ZSkKICAgIExhYmVsKCJBdXRvLXNhdmU6IikKICAgIElucHV0KHZhbHVlPXN3LnJ4LnRoZW4oIk9uIiwgIk9mZiIpLCByZWFkX29ubHk9VHJ1ZSkK">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import Input, Label, Row, Switch
+
+with Row(gap=4, align="center"):
+    sw = Switch(label="Auto-save to the Guide", value=True)
+    Label("Auto-save:")
+    Input(value=sw.rx.then("On", "Off"), read_only=True)
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "cssClass": "gap-4 items-center",
+    "type": "Row",
+    "children": [
+      {
+        "name": "switch_14",
+        "value": true,
+        "type": "Switch",
+        "label": "Auto-save to the Guide",
+        "size": "default",
+        "disabled": false,
+        "required": false
+      },
+      {"type": "Label", "text": "Auto-save:", "optional": false},
+      {
+        "name": "input_17",
+        "value": "{{ switch_14 ? 'On' : 'Off' }}",
+        "type": "Input",
+        "inputType": "text",
+        "disabled": false,
+        "readOnly": true,
+        "required": false
+      }
+    ]
+  },
+  "state": {"switch_14": true}
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+Toggle the switch and the input updates to reflect the current state.
+
+## API Reference
+
+<Card icon="code" title="Switch Parameters">
+
+<ParamField body="label" type="str | None" default="None">
+  Label text displayed next to the switch.
+</ParamField>
+
+<ParamField body="value" type="bool" default="False">
+  Whether the switch is on.
+</ParamField>
+
+<ParamField body="size" type="str" default="default">
+  Switch size: `"default"`, `"sm"`.
+</ParamField>
+
+<ParamField body="name" type="str | None" default="None">
+  State key for the switch's checked state. Auto-generated if not provided. Use `.rx` to reference the switch's boolean state in other components without specifying the name explicitly.
+</ParamField>
+
+<ParamField body="disabled" type="bool" default="False">
+  Whether the switch is non-interactive.
+</ParamField>
+
+<ParamField body="required" type="bool" default="False">
+  Whether a selection is required for form submission.
+</ParamField>
+
+<ParamField body="on_change" type="Action | list[Action] | None" default="None">
+  Action(s) to execute when toggled. `$event` is `true` when on, `false` when off.
+</ParamField>
+
+<ParamField body="css_class" type="str | None" default="None">
+  Additional Tailwind CSS classes appended to the component's built-in styles.
+</ParamField>
+</Card>
+
+## Protocol Reference
+
+```json Switch
+{
+  "type": "Switch",
+  "name?": "string",
+  "label?": "string",
+  "value?": false,
+  "size?": "sm | default",
+  "disabled?": false,
+  "required?": false,
+  "onChange?": "Action | Action[]",
+  "cssClass?": "string"
+}
+```
+
+For the complete protocol schema, see [Switch](/protocol/switch).

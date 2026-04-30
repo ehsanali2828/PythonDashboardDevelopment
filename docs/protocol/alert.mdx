@@ -1,0 +1,84 @@
+---
+title: Alert
+description: JSON Schema for the Alert component.
+---
+
+An alert container for important messages.
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "type": {
+      "const": "Alert",
+      "default": "Alert",
+      "type": "string"
+    },
+    "id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "HTML id attribute for CSS targeting. Applied to the outermost element."
+    },
+    "cssClass": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "CSS/Tailwind classes for styling. Accepts a Responsive() for breakpoint-aware classes."
+    },
+    "onMount": {
+      "default": null,
+      "description": "Action(s) to execute when this component mounts."
+    },
+    "children": {
+      "type": "array",
+      "items": {
+        "$ref": "Component"
+      }
+    },
+    "let": {
+      "additionalProperties": true,
+      "type": [
+        "object",
+        "null"
+      ],
+      "default": null,
+      "description": "Scoped bindings available to children. Values are template strings."
+    },
+    "variant": {
+      "anyOf": [
+        {
+          "enum": [
+            "default",
+            "destructive",
+            "success",
+            "warning",
+            "info"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "default": "default",
+      "description": "Visual variant: default, destructive, success, warning, info"
+    },
+    "icon": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "Lucide icon name (kebab-case, e.g. 'circle-alert')"
+    }
+  },
+  "required": [
+    "type"
+  ]
+}
+```

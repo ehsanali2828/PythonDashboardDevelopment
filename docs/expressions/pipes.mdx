@@ -1,0 +1,337 @@
+---
+title: Formatting
+sidebarTitle: Formatting
+description: Pipes that format numbers, dates, strings, and arrays for display.
+icon: filter
+---
+
+import { ComponentPreview } from '/snippets/component-preview.mdx'
+
+Raw values make poor display text. A revenue number like `2847500` means nothing without a currency symbol and thousands separators. A decimal like `0.124` needs to be shown as `12.4%`. An ISO date like `2025-01-15T14:30:00Z` should read "January 15, 2025."
+
+Pipes handle this formatting. They're the `|` in expressions like `{{ revenue | currency }}` — they take the value on the left, transform it, and return a display-ready result. In Python, pipes are method calls on `Rx` objects: `revenue.currency()` compiles to `{{ revenue | currency }}`.
+
+Here's a dashboard card that uses several pipes together:
+
+<ComponentPreview json={{"view":{"type":"Card","children":[{"type":"CardHeader","children":[{"type":"CardTitle","content":"Q4 Revenue"},{"type":"CardDescription","content":"{{ revenue | currency }}"}]},{"type":"CardContent","children":[{"cssClass":"gap-2","type":"Column","children":[{"type":"Progress","value":"{{ revenue / target * 100 }}","max":100.0,"variant":"default","size":"default"},{"cssClass":"gap-2 items-center","type":"Row","children":[{"content":"{{ revenue / target | percent:1 }} of target","type":"Text"},{"type":"Badge","label":"{{ growth | percent:1 }} YoY","variant":"secondary"}]}]}]}]}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgKAogICAgU1RBVEUgYXMgc3RhdGUsCiAgICBCYWRnZSwKICAgIENhcmQsCiAgICBDYXJkQ29udGVudCwKICAgIENhcmREZXNjcmlwdGlvbiwKICAgIENhcmRIZWFkZXIsCiAgICBDYXJkVGl0bGUsCiAgICBDb2x1bW4sCiAgICBQcm9ncmVzcywKICAgIFJvdywKICAgIFRleHQsCikKCgp3aXRoIENhcmQoKToKICAgIHdpdGggQ2FyZEhlYWRlcigpOgogICAgICAgIENhcmRUaXRsZSgiUTQgUmV2ZW51ZSIpCiAgICAgICAgQ2FyZERlc2NyaXB0aW9uKHN0YXRlLnJldmVudWUuY3VycmVuY3koKSkKICAgIHdpdGggQ2FyZENvbnRlbnQoKToKICAgICAgICB3aXRoIENvbHVtbihnYXA9Mik6CiAgICAgICAgICAgIFByb2dyZXNzKHZhbHVlPShzdGF0ZS5yZXZlbnVlIC8gc3RhdGUudGFyZ2V0ICogMTAwKSwgbWF4PTEwMCkKICAgICAgICAgICAgd2l0aCBSb3coZ2FwPTIsIGFsaWduPSJjZW50ZXIiKToKICAgICAgICAgICAgICAgIFRleHQoZiJ7KHN0YXRlLnJldmVudWUgLyBzdGF0ZS50YXJnZXQpLnBlcmNlbnQoMSl9IG9mIHRhcmdldCIpCiAgICAgICAgICAgICAgICBCYWRnZShmIntzdGF0ZS5ncm93dGgucGVyY2VudCgxKX0gWW9ZIiwgdmFyaWFudD0ic2Vjb25kYXJ5IikK">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import (
+    STATE as state,
+    Badge,
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+    Column,
+    Progress,
+    Row,
+    Text,
+)
+
+
+with Card():
+    with CardHeader():
+        CardTitle("Q4 Revenue")
+        CardDescription(state.revenue.currency())
+    with CardContent():
+        with Column(gap=2):
+            Progress(value=(state.revenue / state.target * 100), max=100)
+            with Row(gap=2, align="center"):
+                Text(f"{(state.revenue / state.target).percent(1)} of target")
+                Badge(f"{state.growth.percent(1)} YoY", variant="secondary")
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "type": "Card",
+    "children": [
+      {
+        "type": "CardHeader",
+        "children": [
+          {"type": "CardTitle", "content": "Q4 Revenue"},
+          {"type": "CardDescription", "content": "{{ revenue | currency }}"}
+        ]
+      },
+      {
+        "type": "CardContent",
+        "children": [
+          {
+            "cssClass": "gap-2",
+            "type": "Column",
+            "children": [
+              {
+                "type": "Progress",
+                "value": "{{ revenue / target * 100 }}",
+                "max": 100.0,
+                "variant": "default",
+                "size": "default"
+              },
+              {
+                "cssClass": "gap-2 items-center",
+                "type": "Row",
+                "children": [
+                  {"content": "{{ revenue / target | percent:1 }} of target", "type": "Text"},
+                  {
+                    "type": "Badge",
+                    "label": "{{ growth | percent:1 }} YoY",
+                    "variant": "secondary"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+`revenue.currency()` turns `2847500` into `$2,847,500.00`. `(revenue / target).percent(1)` divides first, then formats the result as a percentage with one decimal place. Each pipe method returns a new `Rx`, so they chain naturally — and the pipe operator has the **lowest precedence** in the expression grammar, so arithmetic always evaluates before formatting.
+
+## Number Formatting
+
+| Pipe | Python | Protocol | Result |
+|------|--------|----------|--------|
+| `currency` | `.currency()` / `.currency("EUR")` | `{{ x \| currency }}` / `{{ x \| currency:EUR }}` | `$1,234.00` / `€1,234.00` |
+| `percent` | `.percent()` / `.percent(1)` | `{{ x \| percent }}` / `{{ x \| percent:1 }}` | `76%` / `75.6%` |
+| `number` | `.number()` / `.number(2)` | `{{ x \| number }}` / `{{ x \| number:2 }}` | `1,234` / `1,234.00` |
+| `round` | `.round(2)` | `{{ x \| round:2 }}` | `3.14` |
+| `abs` | `.abs()` | `{{ x \| abs }}` | `42` |
+
+One thing to watch for: `percent` multiplies by 100 before formatting. A value of `0.756` becomes `75.6%`, not `0.756%`. This matches how most APIs and databases store percentages (as decimals), so it usually does what you want. `number` and `currency` produce locale-formatted output (en-US by default).
+
+## Date and Time
+
+ISO date strings are precise but unreadable. The date and time pipes turn them into human-friendly formats:
+
+<ComponentPreview json={{"view":{"type":"Card","children":[{"type":"CardHeader","children":[{"type":"CardTitle","content":"Team Standup"},{"type":"CardDescription","content":"{{ starts | date:long }}"}]},{"type":"CardContent","children":[{"cssClass":"gap-2 items-center","type":"Row","children":[{"type":"Badge","label":"{{ starts | time }}","variant":"outline"},{"content":"{{ starts | datetime }}","type":"Text"}]}]}]}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgKAogICAgU1RBVEUgYXMgc3RhdGUsCiAgICBCYWRnZSwKICAgIENhcmQsCiAgICBDYXJkQ29udGVudCwKICAgIENhcmREZXNjcmlwdGlvbiwKICAgIENhcmRIZWFkZXIsCiAgICBDYXJkVGl0bGUsCiAgICBSb3csCiAgICBUZXh0LAopCgoKd2l0aCBDYXJkKCk6CiAgICB3aXRoIENhcmRIZWFkZXIoKToKICAgICAgICBDYXJkVGl0bGUoIlRlYW0gU3RhbmR1cCIpCiAgICAgICAgQ2FyZERlc2NyaXB0aW9uKHN0YXRlLnN0YXJ0cy5kYXRlKCJsb25nIikpCiAgICB3aXRoIENhcmRDb250ZW50KCk6CiAgICAgICAgd2l0aCBSb3coZ2FwPTIsIGFsaWduPSJjZW50ZXIiKToKICAgICAgICAgICAgQmFkZ2Uoc3RhdGUuc3RhcnRzLnRpbWUoKSwgdmFyaWFudD0ib3V0bGluZSIpCiAgICAgICAgICAgIFRleHQoc3RhdGUuc3RhcnRzLmRhdGV0aW1lKCkpCg">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import (
+    STATE as state,
+    Badge,
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+    Row,
+    Text,
+)
+
+
+with Card():
+    with CardHeader():
+        CardTitle("Team Standup")
+        CardDescription(state.starts.date("long"))
+    with CardContent():
+        with Row(gap=2, align="center"):
+            Badge(state.starts.time(), variant="outline")
+            Text(state.starts.datetime())
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "type": "Card",
+    "children": [
+      {
+        "type": "CardHeader",
+        "children": [
+          {"type": "CardTitle", "content": "Team Standup"},
+          {"type": "CardDescription", "content": "{{ starts | date:long }}"}
+        ]
+      },
+      {
+        "type": "CardContent",
+        "children": [
+          {
+            "cssClass": "gap-2 items-center",
+            "type": "Row",
+            "children": [
+              {"type": "Badge", "label": "{{ starts | time }}", "variant": "outline"},
+              {"content": "{{ starts | datetime }}", "type": "Text"}
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+| Pipe | Argument | Example Output |
+|------|----------|---------------|
+| `date` | `short` | `1/15/2025` |
+| `date` | (default: medium) | `Jan 15, 2025` |
+| `date` | `long` | `January 15, 2025` |
+| `time` | | `2:30 PM` |
+| `datetime` | | `Jan 15, 2025, 2:30 PM` |
+
+Pass an ISO date string as the input value. The `time` pipe also accepts time-only strings like `"14:30"`.
+
+## String Formatting
+
+<ComponentPreview json={{"view":{"type":"Card","children":[{"type":"CardHeader","children":[{"type":"CardTitle","content":"{{ name | upper }}"}]},{"type":"CardContent","children":[{"cssClass":"gap-2","type":"Column","children":[{"type":"Badge","label":"{{ name | lower }}","variant":"secondary"},{"content":"{{ bio | truncate:80 }}","type":"Text"}]}]}]}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgKAogICAgU1RBVEUgYXMgc3RhdGUsCiAgICBCYWRnZSwKICAgIENhcmQsCiAgICBDYXJkQ29udGVudCwKICAgIENhcmRIZWFkZXIsCiAgICBDYXJkVGl0bGUsCiAgICBDb2x1bW4sCiAgICBUZXh0LAopCgoKd2l0aCBDYXJkKCk6CiAgICB3aXRoIENhcmRIZWFkZXIoKToKICAgICAgICBDYXJkVGl0bGUoc3RhdGUubmFtZS51cHBlcigpKQogICAgd2l0aCBDYXJkQ29udGVudCgpOgogICAgICAgIHdpdGggQ29sdW1uKGdhcD0yKToKICAgICAgICAgICAgQmFkZ2Uoc3RhdGUubmFtZS5sb3dlcigpLCB2YXJpYW50PSJzZWNvbmRhcnkiKQogICAgICAgICAgICBUZXh0KHN0YXRlLmJpby50cnVuY2F0ZSg4MCkpCg">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import (
+    STATE as state,
+    Badge,
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+    Column,
+    Text,
+)
+
+
+with Card():
+    with CardHeader():
+        CardTitle(state.name.upper())
+    with CardContent():
+        with Column(gap=2):
+            Badge(state.name.lower(), variant="secondary")
+            Text(state.bio.truncate(80))
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "type": "Card",
+    "children": [
+      {
+        "type": "CardHeader",
+        "children": [{"type": "CardTitle", "content": "{{ name | upper }}"}]
+      },
+      {
+        "type": "CardContent",
+        "children": [
+          {
+            "cssClass": "gap-2",
+            "type": "Column",
+            "children": [
+              {"type": "Badge", "label": "{{ name | lower }}", "variant": "secondary"},
+              {"content": "{{ bio | truncate:80 }}", "type": "Text"}
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+| Pipe | Argument | Description |
+|------|----------|-------------|
+| `upper` | | Uppercase the string |
+| `lower` | | Lowercase the string |
+| `truncate` | max length | Clamp to N characters, append `...` if truncated |
+| `pluralize` | singular word (default `item`) | Returns the word as-is for count 1, appends `s` otherwise |
+
+`pluralize` pairs well with `length` for labeling dynamic counts: `Rx("items").length().pluralize("item")` produces `{{ items | length | pluralize:'item' }}`, which renders as "1 item" or "3 items" depending on the array size.
+
+## Array Operations
+
+When state contains a list of objects, you often need to summarize it — count the elements, extract a subset, or join names into a string. Array pipes handle this without any server logic:
+
+<ComponentPreview json={{"view":{"cssClass":"gap-2","type":"Column","children":[{"cssClass":"gap-2 items-center","type":"Row","children":[{"content":"{{ todos | rejectattr:done | length }} remaining","type":"Text"},{"type":"Badge","label":"{{ todos | length }} total","variant":"outline"}]},{"content":"First: {{ todos | selectattr:name | first }}","type":"Text"},{"content":"All: {{ todos | selectattr:name | join:', ' }}","type":"Text"}]}}} playground="ZnJvbSBwcmVmYWJfdWkuY29tcG9uZW50cyBpbXBvcnQgU1RBVEUgYXMgc3RhdGUsIEJhZGdlLCBDb2x1bW4sIFJvdywgVGV4dAoKCndpdGggQ29sdW1uKGdhcD0yKToKICAgIHdpdGggUm93KGdhcD0yLCBhbGlnbj0iY2VudGVyIik6CiAgICAgICAgVGV4dChmIntzdGF0ZS50b2Rvcy5yZWplY3RhdHRyKCdkb25lJykubGVuZ3RoKCl9IHJlbWFpbmluZyIpCiAgICAgICAgQmFkZ2UoZiJ7c3RhdGUudG9kb3MubGVuZ3RoKCl9IHRvdGFsIiwgdmFyaWFudD0ib3V0bGluZSIpCiAgICBUZXh0KGYiRmlyc3Q6IHtzdGF0ZS50b2Rvcy5zZWxlY3RhdHRyKCduYW1lJykuZmlyc3QoKX0iKQogICAgVGV4dChmIkFsbDoge3N0YXRlLnRvZG9zLnNlbGVjdGF0dHIoJ25hbWUnKS5qb2luKCcsICcpfSIpCg">
+<CodeGroup>
+```python Python icon="python"
+from prefab_ui.components import STATE as state, Badge, Column, Row, Text
+
+
+with Column(gap=2):
+    with Row(gap=2, align="center"):
+        Text(f"{state.todos.rejectattr('done').length()} remaining")
+        Badge(f"{state.todos.length()} total", variant="outline")
+    Text(f"First: {state.todos.selectattr('name').first()}")
+    Text(f"All: {state.todos.selectattr('name').join(', ')}")
+```
+```json Protocol icon="brackets-curly"
+{
+  "view": {
+    "cssClass": "gap-2",
+    "type": "Column",
+    "children": [
+      {
+        "cssClass": "gap-2 items-center",
+        "type": "Row",
+        "children": [
+          {"content": "{{ todos | rejectattr:done | length }} remaining", "type": "Text"},
+          {"type": "Badge", "label": "{{ todos | length }} total", "variant": "outline"}
+        ]
+      },
+      {"content": "First: {{ todos | selectattr:name | first }}", "type": "Text"},
+      {"content": "All: {{ todos | selectattr:name | join:', ' }}", "type": "Text"}
+    ]
+  }
+}
+```
+</CodeGroup>
+</ComponentPreview>
+
+The key line is `todos.rejectattr("done").length()` — it filters out completed items, then counts what's left. The renderer evaluates the entire chain at runtime, so the "remaining" count stays current as items are checked off.
+
+| Pipe | Argument | Description |
+|------|----------|-------------|
+| `length` | | Number of elements (also works on strings) |
+| `join` | separator (default `, `) | Join elements into a string |
+| `first` | | First element |
+| `last` | | Last element |
+| `selectattr` | attribute name | Keep items where the attribute is truthy |
+| `rejectattr` | attribute name | Remove items where the attribute is truthy |
+
+## Chaining
+
+Pipes chain left to right — each pipe receives the output of the one before it. This is how you compose multiple transformations in sequence:
+
+| Python | Protocol |
+|--------|----------|
+| `name.lower().truncate(20)` | `{{ name \| lower \| truncate:20 }}` |
+| `todos.rejectattr("done").length()` | `{{ todos \| rejectattr:'done' \| length }}` |
+| `revenue.currency().upper()` | `{{ revenue \| currency \| upper }}` |
+
+Each method call returns a new `Rx` object, so you can keep building. The chain reads naturally left-to-right in both Python and the protocol.
+
+## Pipe Arguments
+
+Some pipes take an argument that modifies their behavior. In the protocol, the argument follows a colon: `{{ score | percent:1 }}`. In Python, it's a method parameter: `.percent(1)`.
+
+The argument is always a simple token — a number, a string, or an identifier. It cannot be a sub-expression.
+
+| Python | Protocol | Effect |
+|--------|----------|--------|
+| `.join(" - ")` | `{{ tags \| join:' - ' }}` | Join with ` - ` separator |
+| `.currency("EUR")` | `{{ price \| currency:EUR }}` | Format as euros |
+| `.default("Anonymous")` | `{{ name \| default:Anonymous }}` | Fallback value |
+| `.truncate(20)` | `{{ bio \| truncate:20 }}` | Limit to 20 characters |
+
+## Default Values
+
+A bare literal after `|` acts as a default value when the left side is null or undefined. In Python, use `.default()`:
+
+| Python | Protocol | Behavior |
+|--------|----------|----------|
+| `name.default("Anonymous")` | `{{ name \| 'Anonymous' }}` | `"Anonymous"` if `name` is undefined |
+| `count.default(0)` | `{{ count \| 0 }}` | `0` if `count` is undefined |
+
+This checks specifically for null/undefined — an empty string `""` or `0` will *not* trigger the default. For broader falsy defaults (including empty strings, zero, and false), use the `||` operator instead:
+
+```
+{{ name || 'Anonymous' }}
+```
+
+See the [Context & Variables](/expressions/context) page for more on how undefined values behave.
+
+## Unknown Pipes
+
+If a pipe name isn't recognized by the renderer, the value passes through unchanged — no error, just unformatted output. This prevents typos from crashing your UI, but it also means a misspelled pipe name will silently produce raw values.

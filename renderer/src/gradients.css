@@ -1,0 +1,238 @@
+/* Gradient fills for progress, slider, and ring components.
+ *
+ * Uses CSS relative color syntax (oklch(from ...)) to derive gradient
+ * endpoints from theme variables automatically. Browsers that don't
+ * support relative color syntax ignore these declarations and keep
+ * the flat fills from style.css.
+ *
+ * Uses background-image (not background shorthand) so indicator_class
+ * overrides via background-color still work.
+ *
+ * Cascade order:
+ *   1. Base gradients (this file) — ON by default
+ *   2. Theme gradient=False — turns OFF globally via _NO_GRADIENT_CSS
+ *   3. Component gradient=True — forces ON via pf-*-gradient class
+ *   4. Component gradient=False — forces OFF via pf-*-flat class
+ */
+
+/* Inline code — accent-tinted background when relative color is supported.
+   Uses 15% opacity for visibility on both light and dark backgrounds. */
+.pf-code {
+  background: oklch(from var(--primary) l c h / 0.12);
+}
+
+/* Progress gradients */
+.pf-progress-variant-default {
+  background-image: linear-gradient(
+    90deg,
+    oklch(from var(--primary) calc(l - 0.12) c h),
+    var(--primary)
+  );
+}
+.pf-progress-variant-success {
+  background-image: linear-gradient(
+    90deg,
+    oklch(from var(--success) calc(l - 0.12) c h),
+    var(--success)
+  );
+}
+.pf-progress-variant-warning {
+  background-image: linear-gradient(
+    90deg,
+    oklch(from var(--warning) calc(l - 0.12) c h),
+    var(--warning)
+  );
+}
+.pf-progress-variant-destructive {
+  background-image: linear-gradient(
+    90deg,
+    oklch(from var(--destructive) calc(l - 0.12) c h),
+    var(--destructive)
+  );
+}
+.pf-progress-variant-info {
+  background-image: linear-gradient(
+    90deg,
+    oklch(from var(--info) calc(l - 0.12) c h),
+    var(--info)
+  );
+}
+
+/* Progress: force gradient ON (overrides theme gradient=False) */
+.pf-progress-gradient .pf-progress-variant-default {
+  background-image: linear-gradient(
+    90deg,
+    oklch(from var(--primary) calc(l - 0.12) c h),
+    var(--primary)
+  );
+}
+.pf-progress-gradient .pf-progress-variant-success {
+  background-image: linear-gradient(
+    90deg,
+    oklch(from var(--success) calc(l - 0.12) c h),
+    var(--success)
+  );
+}
+.pf-progress-gradient .pf-progress-variant-warning {
+  background-image: linear-gradient(
+    90deg,
+    oklch(from var(--warning) calc(l - 0.12) c h),
+    var(--warning)
+  );
+}
+.pf-progress-gradient .pf-progress-variant-destructive {
+  background-image: linear-gradient(
+    90deg,
+    oklch(from var(--destructive) calc(l - 0.12) c h),
+    var(--destructive)
+  );
+}
+.pf-progress-gradient .pf-progress-variant-info {
+  background-image: linear-gradient(
+    90deg,
+    oklch(from var(--info) calc(l - 0.12) c h),
+    var(--info)
+  );
+}
+
+/* Progress: force flat (overrides everything) */
+.pf-progress-flat .pf-progress-variant-default {
+  background-image: none;
+}
+.pf-progress-flat .pf-progress-variant-success {
+  background-image: none;
+}
+.pf-progress-flat .pf-progress-variant-warning {
+  background-image: none;
+}
+.pf-progress-flat .pf-progress-variant-destructive {
+  background-image: none;
+}
+.pf-progress-flat .pf-progress-variant-info {
+  background-image: none;
+}
+
+/* Slider gradients */
+.pf-slider-variant-default {
+  background-image: linear-gradient(
+    90deg,
+    oklch(from var(--primary) calc(l - 0.12) c h),
+    var(--primary)
+  );
+}
+.pf-slider-variant-success {
+  background-image: linear-gradient(
+    90deg,
+    oklch(from var(--success) calc(l - 0.12) c h),
+    var(--success)
+  );
+}
+.pf-slider-variant-warning {
+  background-image: linear-gradient(
+    90deg,
+    oklch(from var(--warning) calc(l - 0.12) c h),
+    var(--warning)
+  );
+}
+.pf-slider-variant-destructive {
+  background-image: linear-gradient(
+    90deg,
+    oklch(from var(--destructive) calc(l - 0.12) c h),
+    var(--destructive)
+  );
+}
+.pf-slider-variant-info {
+  background-image: linear-gradient(
+    90deg,
+    oklch(from var(--info) calc(l - 0.12) c h),
+    var(--info)
+  );
+}
+
+/* Slider: force gradient ON */
+.pf-slider-gradient .pf-slider-variant-default {
+  background-image: linear-gradient(
+    90deg,
+    oklch(from var(--primary) calc(l - 0.12) c h),
+    var(--primary)
+  );
+}
+.pf-slider-gradient .pf-slider-variant-success {
+  background-image: linear-gradient(
+    90deg,
+    oklch(from var(--success) calc(l - 0.12) c h),
+    var(--success)
+  );
+}
+.pf-slider-gradient .pf-slider-variant-warning {
+  background-image: linear-gradient(
+    90deg,
+    oklch(from var(--warning) calc(l - 0.12) c h),
+    var(--warning)
+  );
+}
+.pf-slider-gradient .pf-slider-variant-destructive {
+  background-image: linear-gradient(
+    90deg,
+    oklch(from var(--destructive) calc(l - 0.12) c h),
+    var(--destructive)
+  );
+}
+.pf-slider-gradient .pf-slider-variant-info {
+  background-image: linear-gradient(
+    90deg,
+    oklch(from var(--info) calc(l - 0.12) c h),
+    var(--info)
+  );
+}
+
+/* Slider: force flat */
+.pf-slider-flat .pf-slider-variant-default {
+  background-image: none;
+}
+.pf-slider-flat .pf-slider-variant-success {
+  background-image: none;
+}
+.pf-slider-flat .pf-slider-variant-warning {
+  background-image: none;
+}
+.pf-slider-flat .pf-slider-variant-destructive {
+  background-image: none;
+}
+.pf-slider-flat .pf-slider-variant-info {
+  background-image: none;
+}
+
+/* Ring: force gradient ON */
+.pf-ring-gradient .pf-ring-variant-default {
+  stroke: url(#ring-gradient-default);
+}
+.pf-ring-gradient .pf-ring-variant-success {
+  stroke: url(#ring-gradient-success);
+}
+.pf-ring-gradient .pf-ring-variant-warning {
+  stroke: url(#ring-gradient-warning);
+}
+.pf-ring-gradient .pf-ring-variant-destructive {
+  stroke: url(#ring-gradient-destructive);
+}
+.pf-ring-gradient .pf-ring-variant-info {
+  stroke: url(#ring-gradient-info);
+}
+
+/* Ring: force flat */
+.pf-ring-flat .pf-ring-variant-default {
+  stroke: var(--primary);
+}
+.pf-ring-flat .pf-ring-variant-success {
+  stroke: var(--success);
+}
+.pf-ring-flat .pf-ring-variant-warning {
+  stroke: var(--warning);
+}
+.pf-ring-flat .pf-ring-variant-destructive {
+  stroke: var(--destructive);
+}
+.pf-ring-flat .pf-ring-variant-info {
+  stroke: var(--info);
+}

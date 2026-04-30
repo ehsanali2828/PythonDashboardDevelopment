@@ -1,0 +1,12 @@
+{
+  "animate": true,
+  "data": [],
+  "height": 300,
+  "series": [],
+  "showGrid": true,
+  "showLegend": true,
+  "showTooltip": true,
+  "type": "ScatterChart",
+  "xAxis": "test_x_axis",
+  "yAxis": "test_y_axis"
+}

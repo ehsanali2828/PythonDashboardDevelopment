@@ -1,0 +1,8 @@
+{
+  "disabled": false,
+  "invalid": false,
+  "name": "select_1",
+  "required": false,
+  "size": "default",
+  "type": "Select"
+}

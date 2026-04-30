@@ -1,0 +1,87 @@
+---
+title: Badge
+description: JSON Schema for the Badge component.
+---
+
+A badge component for displaying status or labels.
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "type": {
+      "const": "Badge",
+      "default": "Badge",
+      "type": "string"
+    },
+    "id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "HTML id attribute for CSS targeting. Applied to the outermost element."
+    },
+    "cssClass": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "CSS/Tailwind classes for styling. Accepts a Responsive() for breakpoint-aware classes."
+    },
+    "onMount": {
+      "default": null,
+      "description": "Action(s) to execute when this component mounts."
+    },
+    "children": {
+      "type": "array",
+      "items": {
+        "$ref": "Component"
+      }
+    },
+    "let": {
+      "additionalProperties": true,
+      "type": [
+        "object",
+        "null"
+      ],
+      "default": null,
+      "description": "Scoped bindings available to children. Values are template strings."
+    },
+    "label": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "Badge text"
+    },
+    "variant": {
+      "anyOf": [
+        {
+          "enum": [
+            "default",
+            "secondary",
+            "destructive",
+            "success",
+            "warning",
+            "info",
+            "outline",
+            "ghost"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "default": "default",
+      "description": "Visual variant: default, secondary, destructive, outline, ghost, success, warning, or info"
+    }
+  },
+  "required": [
+    "type"
+  ]
+}
+```

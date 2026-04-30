@@ -1,0 +1,6 @@
+{
+  "name": "tabs_1",
+  "orientation": "horizontal",
+  "type": "Tabs",
+  "variant": "default"
+}

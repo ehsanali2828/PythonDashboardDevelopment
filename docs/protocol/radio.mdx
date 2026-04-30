@@ -1,0 +1,85 @@
+---
+title: Radio
+description: JSON Schema for the Radio component.
+---
+
+Radio button input component.
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "type": {
+      "const": "Radio",
+      "default": "Radio",
+      "type": "string"
+    },
+    "id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "HTML id attribute for CSS targeting. Applied to the outermost element."
+    },
+    "cssClass": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "CSS/Tailwind classes for styling. Accepts a Responsive() for breakpoint-aware classes."
+    },
+    "onMount": {
+      "default": null,
+      "description": "Action(s) to execute when this component mounts."
+    },
+    "name": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "State key for reactive binding. Auto-generated if omitted."
+    },
+    "value": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "default": false,
+      "description": "Whether radio is selected"
+    },
+    "option": {
+      "description": "Option identifier within the group",
+      "type": "string"
+    },
+    "label": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "Label text"
+    },
+    "disabled": {
+      "default": false,
+      "description": "Whether radio is disabled",
+      "type": "boolean"
+    },
+    "required": {
+      "default": false,
+      "description": "Whether radio is required",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "type",
+    "option"
+  ]
+}
+```

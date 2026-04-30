@@ -1,0 +1,57 @@
+---
+title: Icon
+description: JSON Schema for the Icon component.
+---
+
+Renders a lucide icon by name.
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "type": {
+      "const": "Icon",
+      "default": "Icon",
+      "type": "string"
+    },
+    "id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "HTML id attribute for CSS targeting. Applied to the outermost element."
+    },
+    "cssClass": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "CSS/Tailwind classes for styling. Accepts a Responsive() for breakpoint-aware classes."
+    },
+    "onMount": {
+      "default": null,
+      "description": "Action(s) to execute when this component mounts."
+    },
+    "name": {
+      "description": "Lucide icon name in kebab-case",
+      "type": "string"
+    },
+    "size": {
+      "default": "default",
+      "description": "Icon size variant",
+      "enum": [
+        "sm",
+        "default",
+        "lg"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "type",
+    "name"
+  ]
+}
+```
